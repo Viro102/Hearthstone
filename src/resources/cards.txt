@@ -1,0 +1,6 @@
+Fireball spell 0 5 2
+Murloc minion 2 1 2
+Angry_Murloc minion 3 3 4
+Sleepy_Murloc minion 1 1 1
+Insane_Murloc minion 3 2 2
+Intelligent_Murloc minion 5 2 2
