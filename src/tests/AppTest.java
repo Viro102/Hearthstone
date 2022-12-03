@@ -10,11 +10,9 @@ import org.junit.jupiter.api.Test;
 import game.Game;
 
 public class AppTest {
-    private Game g;
-
     @Test
     public void test() {
-        g = new Game();
+        var g = new Game();
         var p1 = g.getPlayer(0);
         var p2 = g.getPlayer(1);
         g.startTurn();
@@ -37,7 +35,7 @@ public class AppTest {
 
     @Test
     public void startGame() {
-        g = new Game();
+        var g = new Game();
         assertNotEquals(null, g.getPlayer(0));
         assertNotEquals(null, g.getPlayer(1));
         var p1 = g.getPlayer(0);
