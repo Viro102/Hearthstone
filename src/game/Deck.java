@@ -1,6 +1,5 @@
 package game;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,19 +12,30 @@ public class Deck {
     public Deck() {
         this.cards = new ArrayList<>();
         this.numberOfCards = 0;
-        this.makeDeck("./src/resources/cards.txt");
+        this.makeDeck("/resources/cards.txt");
     }
 
     private Deck makeDeck(String filename) {
-        try (var sc = new Scanner(new File(filename))) {
+        var inputStream = this.getClass().getResourceAsStream(filename);
+        try (var sc = new Scanner(inputStream)) {
             while (sc.hasNext()) {
+                int buffType = 0;
                 String name = sc.next();
                 String type = sc.next();
+                if (type.equals("buff")) {
+                    buffType = sc.nextInt();
+                }
                 int hp = sc.nextInt();
                 int damage = sc.nextInt();
                 int cost = sc.nextInt();
-                System.out.println(name + " " + type + " " + hp + " " + damage + " " + cost);
-                this.addCards(new Card(name, type, hp, damage, cost));
+                if (buffType == 0) {
+                    // System.out.println(name + " " + type + " " + hp + " " + damage + " " + cost);
+                    this.addCards(new Card(name, type, hp, damage, cost));
+                } else {
+                    // System.out.println(name + " " + type + " " + buffType + " " + hp + " " +
+                    // damage + " " + cost);
+                    this.addCards(new Card(name, type, buffType, hp, damage, cost));
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

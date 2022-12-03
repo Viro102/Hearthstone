@@ -23,7 +23,11 @@ public class Table {
     }
 
     public Card getCard(Card card) {
-        return this.cards.get(this.cards.indexOf(card));
+        if (this.cards.contains(card)) {
+            return card;
+        } else {
+            return null;
+        }
     }
 
     public List<Card> getCards() {
@@ -32,7 +36,9 @@ public class Table {
 
     public void printTable() {
         for (Card card : this.cards) {
-            System.out.println(card.getName());
+            System.out.println(
+                    card.getName() + " " + card.getType() + " \nHP: " + card.getHp() + " DMG: " + card.getDamage());
+            System.out.println();
         }
     }
 }

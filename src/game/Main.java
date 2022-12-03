@@ -3,10 +3,18 @@ package game;
 public class Main {
     public static void main(String[] args) {
         var g = new Game();
-        var p1 = g.getPlayer1();
-        var p2 = g.getPlayer2();
-        g.startTurn();
-        var card = g.playACard(p2, p2.getCard(0));
-        g.attackFace(p2, card, p1);
+        for (int i = 0; i < 23; i++) {
+            g.startTurn();
+            g.endTurn();
+        }
+        var p = new Player[2];
+        p[0] = g.getPlayer(0);
+        p[1] = g.getPlayer(1);
+
+        Logging.printStateTables(p);
+        g.playACard(p[0], "Murloc");
+        Logging.printStateTables(p);
+        g.playACard(p[0], "Commander");
+        Logging.printStateTables(p);
     }
 }

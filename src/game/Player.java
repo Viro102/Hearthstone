@@ -1,6 +1,9 @@
 package game;
 
+import java.util.List;
+
 public class Player {
+    private static final int MAX_CARDS = 15;
     private int hp;
     private int mana;
     private boolean turn;
@@ -18,19 +21,27 @@ public class Player {
     }
 
     public void drawCard() {
-        if (this.hand.getCards().size() < 10) {
-            this.hand.addCards(this.deck.getCards().get(0));
-            this.deck.removeCards(this.deck.getCards().get(0));
+        if (this.hand.getCards().size() < MAX_CARDS) {
+            if (!this.deck.getCards().isEmpty()) {
+                this.hand.addCards(this.deck.getCards().get(0));
+                this.deck.removeCards(this.deck.getCards().get(0));
+                System.out.println("You drew a card");
+            } else {
+                System.out.println("You have no more cards in your deck");
+            }
         }
+        System.out.println("Your hand is full");
     }
 
-    public void playCard(Card card) {
+    public boolean playCard(Card card) {
         if (this.mana >= card.getCost()) {
             this.table.addCards(card);
             this.hand.removeCards(card);
             this.mana -= card.getCost();
+            return true;
         } else {
             System.out.println("Not enough mana");
+            return false;
         }
     }
 
@@ -44,6 +55,10 @@ public class Player {
 
     public Deck getDeck() {
         return this.deck;
+    }
+
+    public Hand getHand() {
+        return this.hand;
     }
 
     public Card getCard(int i) {
@@ -76,6 +91,10 @@ public class Player {
 
     public void setTurn(boolean turn) {
         this.turn = turn;
+    }
+
+    public List<Card> getCards() {
+        return this.hand.getCards();
     }
 
 }

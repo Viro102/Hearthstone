@@ -32,7 +32,9 @@ public class Hand {
 
     public void printHand() {
         for (Card card : this.cards) {
-            System.out.println(card.getName());
+            System.out.println(
+                    card.getName() + " " + card.getType() + " \nHP: " + card.getHp() + " DMG: " + card.getDamage());
+            System.out.println();
         }
     }
 }

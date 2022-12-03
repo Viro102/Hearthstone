@@ -3,9 +3,19 @@ package game;
 public class Card {
     private String name;
     private String type;
+    private int buffAmount;
     private int hp;
     private int damage;
     private int cost;
+
+    public Card(String name, String type, int buffAmount, int hp, int damage, int cost) {
+        this.name = name;
+        this.type = type;
+        this.buffAmount = buffAmount;
+        this.hp = hp;
+        this.damage = damage;
+        this.cost = cost;
+    }
 
     public Card(String name, String type, int hp, int damage, int cost) {
         this.name = name;
@@ -53,5 +63,9 @@ public class Card {
 
     public void setCost(int cost) {
         this.cost = cost;
+    }
+
+    public int getBuffAmount() {
+        return buffAmount;
     }
 }
