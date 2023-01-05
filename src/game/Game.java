@@ -6,7 +6,6 @@ public class Game {
     private Table table2;
     private Deck deck1;
     private Deck deck2;
-    private boolean gameOver;
 
     public Game() {
         this.table1 = new Table();
@@ -16,7 +15,6 @@ public class Game {
         this.players = new Player[2];
         this.players[0] = new Player(30, 0, deck1, table1);
         this.players[1] = new Player(30, 0, deck2, table2);
-        this.gameOver = false;
     }
 
     public Player getPlayer(int i) {
@@ -106,10 +104,8 @@ public class Game {
     public void isGameOver() {
         if (this.players[0].getHp() <= 0) {
             System.out.println("Player 2 wins");
-            this.gameOver = true;
         } else if (this.players[1].getHp() <= 0) {
             System.out.println("Player 1 wins");
-            this.gameOver = true;
         }
     }
 }
