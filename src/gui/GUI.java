@@ -14,35 +14,24 @@ public class GUI {
     private static final int WIDTH_BUTTON = 150;
     private static final int HEIGHT_BUTTON = 50;
 
-    private Rectangle endTurnButton;
-    private Rectangle card;
-    private Rectangle deck;
-    private Rectangle table;
-    private Rectangle hero;
-
     public Rectangle createDeck() {
-        this.deck = new Rectangle(1200, 200, WIDTH_CARD, HEIGHT_CARD);
-        return this.deck;
+        return new Rectangle(1200, 200, WIDTH_CARD, HEIGHT_CARD);
     }
 
     public Rectangle createTable() {
-        this.table = new Rectangle(70, 100, WIDTH_TABLE, HEIGHT_TABLE);
-        return this.table;
+        return new Rectangle(70, 30, WIDTH_TABLE, HEIGHT_TABLE);
     }
 
     public Rectangle createHero() {
-        this.hero = new Rectangle(1000, 500, WIDTH_HERO, HEIGHT_HERO);
-        return this.hero;
+        return new Rectangle(1000, 500, WIDTH_HERO, HEIGHT_HERO);
     }
 
     public Rectangle createEndTurnButton() {
-        this.endTurnButton = new Rectangle(950, 320, WIDTH_BUTTON, HEIGHT_BUTTON);
-        return this.endTurnButton;
+        return new Rectangle(950, 250, WIDTH_BUTTON, HEIGHT_BUTTON);
     }
 
     public Rectangle createCard() {
-        this.card = new Rectangle(0, 0, WIDTH_CARD, HEIGHT_CARD);
-        return this.card;
+        return new Rectangle(0, 0, WIDTH_CARD, HEIGHT_CARD);
     }
 
     public void moveCard(Rectangle card, int x, int y) {

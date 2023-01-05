@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
         var p = new Panel();
-        var f = new Frame(p);
+        new Frame(p);
         var gui = new GUI();
         p.draw(gui.createDeck());
         p.draw(gui.createHero());
@@ -22,8 +22,8 @@ public class Main {
 
         int x = 0;
         for (int i = 0; i < 5; i++) {
-            gui.moveCard(cardsBot[i], 100 + x, 380);
-            gui.moveCard(cardsTop[i], 100 + x, 120);
+            gui.moveCard(cardsBot[i], 100 + x, 300);
+            gui.moveCard(cardsTop[i], 100 + x, 50);
             x += 160;
         }
 

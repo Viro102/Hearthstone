@@ -31,7 +31,6 @@ public class Panel extends JPanel {
         } else {
             System.out.println("Object not found");
         }
-
     }
 
     @Override
@@ -40,6 +39,7 @@ public class Panel extends JPanel {
                 Color.CYAN, Color.MAGENTA, Color.GRAY, Color.DARK_GRAY, Color.LIGHT_GRAY, Color.WHITE, Color.BLACK };
         var g2d = (Graphics2D) g;
         super.paintComponent(g2d);
+        g2d.setFont(new Font("Arial", Font.BOLD, 30));
         int i = 0;
         for (var obj : this.objects) {
             var rect = obj;
@@ -49,6 +49,16 @@ public class Panel extends JPanel {
             g2d.setColor(colors[i]);
             g2d.fillRect(rect.x, rect.y, rect.width, rect.height);
             i++;
+        }
+
+        for (var obj : this.objects) {
+            int hpPosY = obj.y + obj.height;
+            int hpPosX = obj.x;
+            int attPosX = obj.x + obj.width / 2;
+            int attPosY = obj.y + obj.height;
+            g2d.setColor(Color.BLACK);
+            g2d.drawString("HP", hpPosX, hpPosY);
+            g2d.drawString("AT", attPosX, attPosY);
         }
     }
 }

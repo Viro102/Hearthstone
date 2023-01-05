@@ -26,7 +26,7 @@ public class Card {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -34,7 +34,7 @@ public class Card {
     }
 
     public String getType() {
-        return type;
+        return this.type;
     }
 
     public void setType(String type) {
@@ -42,7 +42,7 @@ public class Card {
     }
 
     public int getHp() {
-        return hp;
+        return this.hp;
     }
 
     public void setHp(int hp) {
@@ -50,7 +50,7 @@ public class Card {
     }
 
     public int getDamage() {
-        return damage;
+        return this.damage;
     }
 
     public void setDamage(int damage) {
@@ -58,7 +58,7 @@ public class Card {
     }
 
     public int getCost() {
-        return cost;
+        return this.cost;
     }
 
     public void setCost(int cost) {
@@ -66,6 +66,6 @@ public class Card {
     }
 
     public int getBuffAmount() {
-        return buffAmount;
+        return this.buffAmount;
     }
 }
