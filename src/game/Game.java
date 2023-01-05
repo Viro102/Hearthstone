@@ -1,27 +1,28 @@
 package game;
 
+import gui.*;
+
 public class Game {
     private Player[] players;
-    private Table table1;
-    private Table table2;
-    private Deck deck1;
-    private Deck deck2;
+    private Mouse mouse;
+    private Panel panel;
 
     public Game() {
-        this.table1 = new Table();
-        this.table2 = new Table();
-        this.deck1 = new Deck();
-        this.deck2 = new Deck();
+        this.panel = new Panel();
+        new Frame(panel);
+
         this.players = new Player[2];
-        this.players[0] = new Player(30, 0, deck1, table1);
-        this.players[1] = new Player(30, 0, deck2, table2);
+        this.players[0] = new Player(30, 0, new Deck(), new Table());
+        this.players[1] = new Player(30, 0, new Deck(), new Table());
+        this.players[0].setTurn(true);
+
+        this.mouse = new Mouse(this);
+        panel.addMouseListener(mouse);
+        panel.addMouseMotionListener(mouse);
     }
 
-    public Player getPlayer(int i) {
-        if (i < 0 || i > 1) {
-            throw new IllegalArgumentException("Player index must be 0 or 1");
-        }
-        return this.players[i];
+    public void click() {
+        var p = this.mouse.getPointer();
     }
 
     public void startTurn() {
@@ -31,7 +32,6 @@ public class Game {
         } else {
             this.players[1].drawCard();
             this.players[1].setMana(this.players[0].getMana() + 1);
-            this.players[1].setTurn(true);
         }
     }
 
@@ -43,7 +43,6 @@ public class Game {
             this.players[0].setTurn(true);
             this.players[1].setTurn(false);
         }
-        // Logging.printStateAll(this.players);
     }
 
     private void specialCardBuff(Player player, Card card) {
@@ -61,13 +60,14 @@ public class Game {
             if (c.getName().equals(card)) {
                 if (player.playCard(c)) {
                     this.specialCardBuff(player, c);
+                    this.panel.drawCard(c);
                     return c;
                 } else {
                     return null;
                 }
             }
-
         }
+
         System.out.println("Card not found");
         return null;
     }
@@ -76,6 +76,7 @@ public class Game {
         var success = player.playCard(card);
         if (success) {
             this.specialCardBuff(player, card);
+            this.panel.drawCard(card);
             return card;
         } else {
             return null;
@@ -107,5 +108,12 @@ public class Game {
         } else if (this.players[1].getHp() <= 0) {
             System.out.println("Player 1 wins");
         }
+    }
+
+    public Player getPlayer(int i) {
+        if (i < 0 || i > 1) {
+            throw new IllegalArgumentException("Player index must be 0 or 1");
+        }
+        return this.players[i];
     }
 }

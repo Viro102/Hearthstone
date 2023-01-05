@@ -1,8 +1,6 @@
 package gui;
 
 import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
 
 public class GUI {
     private static final int WIDTH_CARD = 150;
@@ -28,13 +26,5 @@ public class GUI {
 
     public Rectangle createEndTurnButton() {
         return new Rectangle(950, 250, WIDTH_BUTTON, HEIGHT_BUTTON);
-    }
-
-    public Rectangle createCard() {
-        return new Rectangle(0, 0, WIDTH_CARD, HEIGHT_CARD);
-    }
-
-    public void moveCard(Rectangle card, int x, int y) {
-        card.setLocation(x, y);
     }
 }

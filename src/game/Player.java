@@ -1,15 +1,17 @@
 package game;
 
 import java.util.List;
+import java.util.Random;
 
 public class Player {
-    private static final int MAX_CARDS = 15;
+    private static final int MAX_CARDS = 5;
     private int hp;
     private int mana;
     private boolean turn;
     private Hand hand;
     private Table table;
     private Deck deck;
+    private Random random;
 
     public Player(int hp, int mana, Deck deck, Table table) {
         this.hp = hp;
@@ -18,17 +20,21 @@ public class Player {
         this.hand = new Hand();
         this.deck = deck;
         this.table = table;
+
+        this.random = new Random();
     }
 
     public void drawCard() {
         if (this.hand.getCards().size() < MAX_CARDS) {
             if (!this.deck.getCards().isEmpty()) {
-                this.hand.addCards(this.deck.getCards().get(0));
-                this.deck.removeCards(this.deck.getCards().get(0));
+                var drawnCard = this.deck.getCards().get(random.nextInt(MAX_CARDS));
+                this.hand.addCards(drawnCard);
+                this.deck.removeCards(drawnCard);
                 System.out.println("You drew a card");
             } else {
                 System.out.println("You have no more cards in your deck");
             }
+            return;
         }
         System.out.println("Your hand is full");
     }

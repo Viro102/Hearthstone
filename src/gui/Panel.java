@@ -1,64 +1,83 @@
 package gui;
 
+import game.Card;
+
 import java.awt.*;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
 public class Panel extends JPanel {
-
     private static final int WIDTH = 1400;
     private static final int HEIGHT = 750;
-    private ArrayList<Rectangle> objects;
+    private transient ArrayList<Card> cards;
+    private Rectangle[] environment;
 
     public Panel() {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(Color.LIGHT_GRAY);
         this.setVisible(true);
 
-        this.objects = new ArrayList<>();
+        this.environment = new Rectangle[4];
+        this.cards = new ArrayList<>();
+
+        this.init();
     }
 
-    public void draw(Rectangle obj) {
-        this.objects.add(obj);
+    public void drawCard(Card card) {
+        this.cards.add(card);
         this.repaint();
     }
 
-    public void erase(Rectangle obj) {
-        if (this.objects.contains(obj)) {
-            this.objects.remove(obj);
+    private void init() {
+        GUI gui = new GUI();
+        this.environment[0] = gui.createHero();
+        this.environment[1] = gui.createDeck();
+        this.environment[2] = gui.createTable();
+        this.environment[3] = gui.createEndTurnButton();
+    }
+
+    public void eraseCard(Card card) {
+        if (this.cards.contains(card)) {
+            this.cards.remove(card);
             this.repaint();
         } else {
-            System.out.println("Object not found");
+            System.out.println("Card not found");
         }
     }
 
     @Override
     protected void paintComponent(Graphics g) {
-        var colors = new Color[] { Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.PINK,
-                Color.CYAN, Color.MAGENTA, Color.GRAY, Color.DARK_GRAY, Color.LIGHT_GRAY, Color.WHITE, Color.BLACK };
         var g2d = (Graphics2D) g;
         super.paintComponent(g2d);
-        g2d.setFont(new Font("Arial", Font.BOLD, 30));
-        int i = 0;
-        for (var obj : this.objects) {
-            var rect = obj;
-            if (i >= colors.length) {
-                i = 0;
-            }
-            g2d.setColor(colors[i]);
-            g2d.fillRect(rect.x, rect.y, rect.width, rect.height);
-            i++;
+
+        for (var obj : this.environment) {
+            g2d.setColor(Color.YELLOW);
+            g2d.fillRect(obj.x, obj.y, obj.width, obj.height);
         }
 
-        for (var obj : this.objects) {
-            int hpPosY = obj.y + obj.height;
-            int hpPosX = obj.x;
-            int attPosX = obj.x + obj.width / 2;
-            int attPosY = obj.y + obj.height;
+        for (var card : this.cards) {
+            int attPosY = card.getY() + card.getHeight();
+            int attPosX = card.getX();
+
+            int hpPosY = card.getY() + card.getHeight();
+            int hpPosX = card.getX() + card.getWidth() - 15;
+
+            int costPosY = card.getY() + 25;
+            int costPosX = card.getX();
+
+            int namePosY = card.getY() + 100;
+            int namePosX = card.getX() + 40;
+
+            g2d.setColor(Color.PINK);
+            g2d.fillRect(card.getX(), card.getY(), card.getWidth(), card.getHeight());
             g2d.setColor(Color.BLACK);
-            g2d.drawString("HP", hpPosX, hpPosY);
-            g2d.drawString("AT", attPosX, attPosY);
+            g2d.setFont(new Font("Arial", Font.BOLD, 30));
+            g2d.drawString(String.valueOf(card.getHp()), hpPosX, hpPosY);
+            g2d.drawString(String.valueOf(card.getDamage()), attPosX, attPosY);
+            g2d.drawString(String.valueOf(card.getCost()), costPosX, costPosY);
+            g2d.setFont(new Font("Arial", Font.PLAIN, 20));
+            g2d.drawString(card.getName(), namePosX, namePosY);
         }
     }
 }
