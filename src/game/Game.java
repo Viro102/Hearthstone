@@ -4,7 +4,6 @@ import gui.*;
 
 public class Game {
     private Player[] players;
-    private Mouse mouse;
     private Panel panel;
 
     public Game() {
@@ -15,14 +14,6 @@ public class Game {
         this.players[0] = new Player(30, 0, new Deck(), new Table());
         this.players[1] = new Player(30, 0, new Deck(), new Table());
         this.players[0].setTurn(true);
-
-        this.mouse = new Mouse(this);
-        panel.addMouseListener(mouse);
-        panel.addMouseMotionListener(mouse);
-    }
-
-    public void click() {
-        var p = this.mouse.getPointer();
     }
 
     public void startTurn() {

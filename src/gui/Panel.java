@@ -11,6 +11,7 @@ public class Panel extends JPanel {
     private static final int WIDTH = 1400;
     private static final int HEIGHT = 750;
     private transient ArrayList<Card> cards;
+    private transient Mouse mouse;
     private Rectangle[] environment;
 
     public Panel() {
@@ -18,15 +19,14 @@ public class Panel extends JPanel {
         this.setBackground(Color.LIGHT_GRAY);
         this.setVisible(true);
 
+        this.mouse = new Mouse(this);
+        this.addMouseListener(mouse);
+        this.addMouseMotionListener(mouse);
+
         this.environment = new Rectangle[4];
         this.cards = new ArrayList<>();
 
         this.init();
-    }
-
-    public void drawCard(Card card) {
-        this.cards.add(card);
-        this.repaint();
     }
 
     private void init() {
@@ -35,6 +35,19 @@ public class Panel extends JPanel {
         this.environment[1] = gui.createDeck();
         this.environment[2] = gui.createTable();
         this.environment[3] = gui.createEndTurnButton();
+    }
+
+    public void click() {
+        for (var obj : this.environment) {
+            if (obj.contains(this.mouse.getPointer())) {
+                System.out.println("Clicked on " + obj.toString());
+            }
+        }
+    }
+
+    public void drawCard(Card card) {
+        this.cards.add(card);
+        this.repaint();
     }
 
     public void eraseCard(Card card) {

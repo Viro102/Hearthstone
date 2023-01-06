@@ -1,6 +1,5 @@
 package gui;
 
-import game.Game;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -9,10 +8,10 @@ import java.lang.reflect.Method;
 
 public class Mouse implements MouseListener, MouseMotionListener {
     private Point p;
-    private Game game;
+    private Panel panel;
 
-    public Mouse(Game game) {
-        this.game = game;
+    public Mouse(Panel panel) {
+        this.panel = panel;
     }
 
     @Override
@@ -30,13 +29,11 @@ public class Mouse implements MouseListener, MouseMotionListener {
 
     public void execute(String select) {
         try {
-            if (this.game != null) {
-                Method sprava = this.game.getClass().getMethod(select);
-                sprava.invoke(this.game);
+            if (this.panel != null) {
+                Method sprava = this.panel.getClass().getMethod(select);
+                sprava.invoke(this.panel);
             }
         } catch (Exception e) {
-            System.out.println(e.getCause().getMessage());
-            System.out.println(e.getCause().getClass().getSimpleName());
             this.doNothing();
         }
 
