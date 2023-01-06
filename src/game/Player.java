@@ -5,6 +5,7 @@ import java.util.Random;
 
 public class Player {
     private static final int MAX_CARDS = 5;
+    private static final int MAX_MANA = 10;
     private int hp;
     private int mana;
     private boolean turn;
@@ -24,19 +25,20 @@ public class Player {
         this.random = new Random();
     }
 
-    public void drawCard() {
+    public Card drawCard() {
         if (this.hand.getCards().size() < MAX_CARDS) {
             if (!this.deck.getCards().isEmpty()) {
                 var drawnCard = this.deck.getCards().get(random.nextInt(MAX_CARDS));
                 this.hand.addCards(drawnCard);
                 this.deck.removeCards(drawnCard);
-                System.out.println("You drew a card");
+                return drawnCard;
             } else {
                 System.out.println("You have no more cards in your deck");
+                return null;
             }
-            return;
         }
         System.out.println("Your hand is full");
+        return null;
     }
 
     public boolean playCard(Card card) {
@@ -76,7 +78,11 @@ public class Player {
     }
 
     public int getHp() {
-        return hp;
+        return this.hp;
+    }
+
+    public String getHpString() {
+        return String.valueOf(this.hp);
     }
 
     public void setHp(int hp) {
@@ -84,11 +90,16 @@ public class Player {
     }
 
     public int getMana() {
-        return mana;
+        return this.mana;
     }
 
     public void setMana(int mana) {
-        this.mana = mana;
+        if (MAX_MANA >= mana) {
+            this.mana = mana;
+        } else {
+            this.mana = MAX_MANA;
+            System.out.println("You have reached the maximum mana");
+        }
     }
 
     public boolean isTurn() {
