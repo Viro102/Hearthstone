@@ -22,7 +22,9 @@ public class Logging {
 
     public static void printStatePlayers(Player[] players) {
         for (int i = 0; i < players.length; i++) {
-            System.out.println("\nPlayer " + i + ": " + players[i].getHp() + " HP, " + players[i].getMana() + " Mana");
+            System.out.println("\nPlayer " + (i + 1) + ": "
+                    + players[i].getHp() + " HP, "
+                    + players[i].getMana() + " Mana");
         }
     }
 

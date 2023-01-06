@@ -30,13 +30,12 @@ public class Mouse implements MouseListener, MouseMotionListener {
     public void execute(String select) {
         try {
             if (this.panel != null) {
-                Method sprava = this.panel.getClass().getMethod(select);
-                sprava.invoke(this.panel);
+                Method method = this.panel.getClass().getMethod(select);
+                method.invoke(this.panel);
             }
         } catch (Exception e) {
             this.doNothing();
         }
-
     }
 
     public Point getPointer() {

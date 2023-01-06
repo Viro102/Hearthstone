@@ -7,33 +7,40 @@ public class Game {
     private Panel panel;
 
     public Game() {
-        this.panel = new Panel();
-        new Frame(panel);
-
         this.players = new Player[2];
         this.players[0] = new Player(30, 0, new Deck(), new Table());
         this.players[1] = new Player(30, 0, new Deck(), new Table());
+
         this.players[0].setTurn(true);
+
+        this.panel = new Panel(this);
+        new Frame(panel);
     }
 
-    public void startTurn() {
-        if (this.players[0].isTurn()) {
-            this.players[0].drawCard();
-            this.players[0].setMana(this.players[0].getMana() + 1);
-        } else {
-            this.players[1].drawCard();
-            this.players[1].setMana(this.players[0].getMana() + 1);
+    public void startGame() {
+        for (int i = 0; i < 3; i++) {
+            int x = i * 170;
+            var card = this.players[0].drawCard();
+            card.setPosition(20 + x, 500);
+            this.panel.renderCard(card);
         }
+        this.players[0].setMana(1);
+        Logging.printStateAll(players);
     }
 
     public void endTurn() {
-        if (this.players[0].isTurn()) {
-            this.players[0].setTurn(false);
-            this.players[1].setTurn(true);
-        } else {
-            this.players[0].setTurn(true);
-            this.players[1].setTurn(false);
+        for (var pl : this.players) {
+            if (pl.isTurn()) {
+                pl.setTurn(false);
+                continue;
+            }
+            var drawnCard = pl.drawCard();
+            this.panel.renderCard(drawnCard);
+            pl.setMana(pl.getMana() + 1);
+            pl.setTurn(true);
         }
+        System.out.println("Turn ended");
+        Logging.printStatePlayers(players);
     }
 
     private void specialCardBuff(Player player, Card card) {
@@ -51,7 +58,7 @@ public class Game {
             if (c.getName().equals(card)) {
                 if (player.playCard(c)) {
                     this.specialCardBuff(player, c);
-                    this.panel.drawCard(c);
+                    this.panel.renderCard(c);
                     return c;
                 } else {
                     return null;
@@ -67,7 +74,7 @@ public class Game {
         var success = player.playCard(card);
         if (success) {
             this.specialCardBuff(player, card);
-            this.panel.drawCard(card);
+            this.panel.renderCard(card);
             return card;
         } else {
             return null;
@@ -101,10 +108,12 @@ public class Game {
         }
     }
 
-    public Player getPlayer(int i) {
-        if (i < 0 || i > 1) {
-            throw new IllegalArgumentException("Player index must be 0 or 1");
+    public Player getOnTurnPlayer() {
+        for (var pl : this.players) {
+            if (pl.isTurn()) {
+                return pl;
+            }
         }
-        return this.players[i];
+        return null;
     }
 }

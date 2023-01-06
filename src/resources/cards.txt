@@ -3,12 +3,12 @@ Fireball spell 0 5 3
 Meteor aoe 0 3 3
 Grunt taunt 5 1 2
 Grunt taunt 5 1 2
-Lieutenant taunt 7 3 4
+Diluc taunt 7 3 4
 Dragon taunt 3 3 3
 Murloc minion 2 1 2
 Murloc minion 2 1 2
 Murloc minion 2 1 2
-Deathwing minion 1 1 0
+Paimon minion 1 1 0
 Warrior minion 3 3 4
 Warrior minion 3 3 4
 C'Thun minion 1 1 1
@@ -16,5 +16,5 @@ C'Thun minion 1 1 1
 Archer minion 3 2 2
 Soldier minion 5 2 3
 Soldier minion 5 2 3
-Commander buff 2 4 3 4
+Noelle buff 2 4 3 4
 General buff 3 6 5 6
