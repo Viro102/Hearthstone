@@ -4,19 +4,23 @@ import java.util.Random;
 
 public class Player {
     private static final int MAX_MANA = 10;
+    private String archetype;
     private int hp;
     private int id;
     private int mana;
+    private int currentMaxMana;
     private boolean turn;
     private Hand hand;
     private Board board;
     private Deck deck;
     private Random random;
 
-    public Player(int hp, int id) {
+    public Player(int hp, int id, String archetype) {
+        this.archetype = archetype;
         this.hp = hp;
         this.id = id;
         this.mana = 0;
+        this.currentMaxMana = 0;
         this.turn = false;
         this.hand = new Hand();
         this.deck = new Deck();
@@ -85,16 +89,24 @@ public class Player {
         return String.valueOf(this.hp);
     }
 
-    public void setHp(int hp) {
-        this.hp = hp;
-    }
-
     public int getMana() {
         return this.mana;
     }
 
     public String getManaString() {
         return String.valueOf(this.mana);
+    }
+
+    public int getCurrentMaxMana() {
+        return this.currentMaxMana;
+    }
+
+    public String getArchetype() {
+        return this.archetype;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 
     public void setMana(int mana) {
@@ -104,6 +116,7 @@ public class Player {
             this.mana = MAX_MANA;
             System.out.println("You have reached the maximum mana");
         }
+        this.currentMaxMana = this.mana;
     }
 
     public boolean isTurn() {
