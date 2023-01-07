@@ -86,6 +86,9 @@ public class Game {
             targetCard.setHp(targetCard.getHp() - this.selectedCard.getDamage());
             this.selectedCard.setHp(this.selectedCard.getHp() - targetCard.getDamage());
             this.selectedCard.setHasAttacked(true);
+            if (this.selectedCard.getType().equals("spell")) {
+                currentPlayer.getBoard().removeCard(this.selectedCard);
+            }
             if (targetCard.getHp() <= 0) {
                 opponent.getBoard().removeCard(i);
             }
@@ -102,6 +105,7 @@ public class Game {
 
     public void attackFace() {
         var target = this.getOffTurnPlayer();
+        var attacker = this.getOnTurnPlayer();
 
         if (this.selectedCard == null) {
             System.out.println("No card selected");
@@ -122,6 +126,9 @@ public class Game {
         if (!this.selectedCard.hasAttacked()) {
             target.setHp(target.getHp() - this.selectedCard.getDamage());
             this.selectedCard.setHasAttacked(true);
+            if (this.selectedCard.getType().equals("spell")) {
+                attacker.getBoard().removeCard(this.selectedCard);
+            }
         } else {
             JOptionPane.showMessageDialog(this.panel, "Card has already attacked!");
         }
@@ -177,14 +184,16 @@ public class Game {
                 c.setHp(c.getHp() + buffAmout);
                 c.setDamage(c.getDamage() + buffAmout);
             }
+            return;
         }
 
         if (card.getType().equals("spell")) {
             this.selectedCard = card;
+            return;
         }
 
-        if (card.getType().equals("aoe spell")) {
-            // TODO
+        if (card.getType().equals("aoe")) {
+            this.selectedCard = card;
         }
     }
 }
