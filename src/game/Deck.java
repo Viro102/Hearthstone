@@ -53,6 +53,10 @@ public class Deck {
         return this.cards;
     }
 
+    public Card getCard(int i) {
+        return this.cards.get(i);
+    }
+
     public int getNumOfCards() {
         return this.numberOfCards;
     }
