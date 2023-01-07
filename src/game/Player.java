@@ -46,6 +46,10 @@ public class Player {
 
     public Card playCard(int i) {
         var card = this.hand.getCard(i);
+        if (this.board.isFull()) {
+            System.out.println("Your board is full");
+            return null;
+        }
         if (this.mana >= card.getCost()) {
             this.board.addCard(card);
             this.hand.removeCard(i);

@@ -11,11 +11,11 @@ public class Deck {
     public Deck() {
         this.cards = new ArrayList<>();
         this.numberOfCards = 0;
-        this.makeDeck("/resources/cards.txt");
+        this.makeDeck("res/cards.txt");
     }
 
     private Deck makeDeck(String filename) {
-        var inputStream = this.getClass().getResourceAsStream(filename);
+        var inputStream = this.getClass().getClassLoader().getResourceAsStream(filename);
         try (var sc = new Scanner(inputStream)) {
             while (sc.hasNext()) {
                 int buffType = 0;

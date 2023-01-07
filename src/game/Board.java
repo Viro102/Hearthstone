@@ -28,6 +28,15 @@ public class Board {
         return this.cards;
     }
 
+    public boolean isFull() {
+        for (Card card : this.cards) {
+            if (card == null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void printBoard() {
         for (Card card : this.cards) {
             if (card == null) {
