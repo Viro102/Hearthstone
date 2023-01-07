@@ -16,13 +16,8 @@ public class Board {
         }
     }
 
-    public void removeCard(Card card) {
-        for (int i = 0; i < this.cards.length; i++) {
-            if (this.cards[i] == card) {
-                this.cards[i] = null;
-                break;
-            }
-        }
+    public void removeCard(int i) {
+        this.cards[i] = null;
     }
 
     public Card getCard(int i) {
