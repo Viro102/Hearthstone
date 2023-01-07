@@ -10,10 +10,13 @@ public class Game {
     private Player[] players;
     private Panel panel;
     private Card selectedCard;
+    private int turnCounter;
 
     public Game() {
         this.players = new Player[2];
         this.panel = new Panel(this);
+        this.selectedCard = null;
+        this.turnCounter = 0;
         new Frame(this.panel);
     }
 
@@ -21,8 +24,7 @@ public class Game {
         this.players[0] = new Player(PLAYER_MAX_HP, 0, player1);
         this.players[1] = new Player(PLAYER_MAX_HP, 1, player2);
         this.players[0].setTurn(true);
-        this.players[0].setMana(10);
-        this.players[1].setMana(10);
+        this.players[0].setMana(1);
         for (int i = 0; i < 3; i++) {
             this.players[0].drawCard();
             this.players[1].drawCard();
@@ -32,6 +34,10 @@ public class Game {
     }
 
     public void endTurn() {
+        if (this.turnCounter >= 30) {
+            JOptionPane.showMessageDialog(this.panel, "Game over, no one won");
+            System.exit(0);
+        }
         var currentPlayer = this.getOnTurnPlayer();
         var offPlayer = this.getOffTurnPlayer();
 
@@ -50,6 +56,7 @@ public class Game {
         }
         this.panel.removeGlow();
         this.panel.update();
+        this.turnCounter++;
         System.out.println("Turn ended");
         Logging.printStateHand(this.players);
     }
@@ -140,9 +147,9 @@ public class Game {
 
     public void isGameOver() {
         if (this.players[0].getHp() <= 0) {
-            JOptionPane.showMessageDialog(this.panel, "Player 2 wins");
+            JOptionPane.showMessageDialog(this.panel, "Player 2 (" + players[1].getArchetype() + ") wins");
         } else if (this.players[1].getHp() <= 0) {
-            JOptionPane.showMessageDialog(this.panel, "Player 1 wins");
+            JOptionPane.showMessageDialog(this.panel, "Player 1 (" + players[0].getArchetype() + ") wins");
         }
     }
 
