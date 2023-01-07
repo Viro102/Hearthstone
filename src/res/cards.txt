@@ -1,14 +1,14 @@
 Fireball spell 0 5 4
 Fireball spell 0 5 4
 Meteor aoe 0 2 3
+Meteor aoe 0 2 3
+Meteor aoe 0 2 3
 Grunt taunt 5 1 2
 Grunt taunt 5 1 2
 Diluc taunt 7 3 4
 Dragon taunt 3 3 3
 Murloc minion 2 1 2
 Murloc minion 2 1 2
-Murloc minion 2 1 2
-Paimon minion 1 1 0
 Paimon minion 1 1 0
 Paimon minion 1 1 0
 Warrior minion 3 3 4
