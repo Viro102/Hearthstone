@@ -54,27 +54,6 @@ public class Game {
         Logging.printStateHand(this.players);
     }
 
-    private void specialCard(Player player, Card card) {
-        if (card.getType().equals("buff")) {
-            int buffAmout = card.getBuffAmount();
-            for (var c : player.getBoard().getCards()) {
-                if (c == null) {
-                    continue;
-                }
-                c.setHp(c.getHp() + buffAmout);
-                c.setDamage(c.getDamage() + buffAmout);
-            }
-        }
-
-        if (card.getType().equals("spell")) {
-            this.selectedCard = card;
-        }
-
-        if (card.getType().equals("aoe spell")) {
-            // TODO
-        }
-    }
-
     public void playACard(Player player, int i) {
         var card = player.playCard(i);
         if (card != null) {
@@ -186,5 +165,26 @@ public class Game {
 
     public Player[] getPlayers() {
         return this.players;
+    }
+
+    private void specialCard(Player player, Card card) {
+        if (card.getType().equals("buff")) {
+            int buffAmout = card.getBuffAmount();
+            for (var c : player.getBoard().getCards()) {
+                if (c == null) {
+                    continue;
+                }
+                c.setHp(c.getHp() + buffAmout);
+                c.setDamage(c.getDamage() + buffAmout);
+            }
+        }
+
+        if (card.getType().equals("spell")) {
+            this.selectedCard = card;
+        }
+
+        if (card.getType().equals("aoe spell")) {
+            // TODO
+        }
     }
 }
