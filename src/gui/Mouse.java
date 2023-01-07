@@ -14,6 +14,10 @@ public class Mouse implements MouseListener, MouseMotionListener {
         this.panel = panel;
     }
 
+    public Point getPointer() {
+        return this.p;
+    }
+
     @Override
     public void mouseMoved(MouseEvent e) {
         this.p = e.getPoint();
@@ -25,25 +29,6 @@ public class Mouse implements MouseListener, MouseMotionListener {
             System.out.println("KLIK: x:" + e.getX() + " y:" + e.getY());
             this.execute("click");
         }
-    }
-
-    public void execute(String select) {
-        try {
-            if (this.panel != null) {
-                Method method = this.panel.getClass().getMethod(select);
-                method.invoke(this.panel);
-            }
-        } catch (Exception e) {
-            this.doNothing();
-        }
-    }
-
-    public Point getPointer() {
-        return this.p;
-    }
-
-    private void doNothing() {
-        // nothing
     }
 
     @Override
@@ -69,5 +54,20 @@ public class Mouse implements MouseListener, MouseMotionListener {
     @Override
     public void mouseDragged(MouseEvent e) {
         // not used
+    }
+
+    private void execute(String select) {
+        try {
+            if (this.panel != null) {
+                Method method = this.panel.getClass().getMethod(select);
+                method.invoke(this.panel);
+            }
+        } catch (Exception e) {
+            this.doNothing();
+        }
+    }
+
+    private void doNothing() {
+        // nothing
     }
 }

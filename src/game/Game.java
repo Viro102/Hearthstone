@@ -145,14 +145,6 @@ public class Game {
         this.isGameOver();
     }
 
-    public void isGameOver() {
-        if (this.players[0].getHp() <= 0) {
-            JOptionPane.showMessageDialog(this.panel, "Player 2 (" + players[1].getArchetype() + ") wins");
-        } else if (this.players[1].getHp() <= 0) {
-            JOptionPane.showMessageDialog(this.panel, "Player 1 (" + players[0].getArchetype() + ") wins");
-        }
-    }
-
     public Player getOnTurnPlayer() {
         for (var player : this.players) {
             if (player.isTurn()) {
@@ -173,12 +165,20 @@ public class Game {
         return null;
     }
 
+    public Player[] getPlayers() {
+        return this.players;
+    }
+
     public boolean isSelected() {
         return this.selectedCard != null;
     }
 
-    public Player[] getPlayers() {
-        return this.players;
+    public void isGameOver() {
+        if (this.players[0].getHp() <= 0) {
+            JOptionPane.showMessageDialog(this.panel, "Player 2 (" + players[1].getArchetype() + ") wins");
+        } else if (this.players[1].getHp() <= 0) {
+            JOptionPane.showMessageDialog(this.panel, "Player 1 (" + players[0].getArchetype() + ") wins");
+        }
     }
 
     private void specialCard(Player player, Card card) {

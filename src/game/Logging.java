@@ -25,20 +25,20 @@ public class Logging {
         }
     }
 
-    public static void printStateBoard(Player[] player) {
+    public static void printStateBoard(Player[] players) {
         System.out.println("\nPlayer 1's table:");
-        player[0].getBoard().printBoard();
+        players[0].getBoard().printBoard();
 
         System.out.println("\nPlayer 2's table:");
-        player[1].getBoard().printBoard();
+        players[1].getBoard().printBoard();
     }
 
-    public static void printStateHand(Player[] player) {
+    public static void printStateHand(Player[] players) {
         System.out.println("\nPlayer 1's hand:");
-        player[0].getHand().printHand();
+        players[0].getHand().printHand();
 
         System.out.println("\nPlayer 2's hand:");
-        player[1].getHand().printHand();
+        players[1].getHand().printHand();
     }
 
     private Logging() {

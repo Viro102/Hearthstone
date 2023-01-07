@@ -77,10 +77,6 @@ public class Player {
         return this.hand;
     }
 
-    public Card getCard(int i) {
-        return this.hand.getCard(i);
-    }
-
     public int getHp() {
         return this.hp;
     }
