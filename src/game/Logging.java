@@ -1,9 +1,6 @@
 package game;
 
 public class Logging {
-    private Logging() {
-    }
-
     public static void printStateAll(Player[] players) {
         Logging.printStatePlayers(players);
 
@@ -42,5 +39,8 @@ public class Logging {
 
         System.out.println("\nPlayer 2's hand:");
         player[1].getHand().printHand();
+    }
+
+    private Logging() {
     }
 }

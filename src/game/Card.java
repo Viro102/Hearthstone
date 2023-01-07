@@ -34,13 +34,6 @@ public class Card {
         this.init();
     }
 
-    private void init() {
-        this.x = 0;
-        this.y = 0;
-        this.width = 150;
-        this.height = 200;
-    }
-
     public String getName() {
         return this.name;
     }
@@ -112,5 +105,12 @@ public class Card {
     public void setPosition(int x, int y) {
         this.setX(x);
         this.setY(y);
+    }
+
+    private void init() {
+        this.x = 0;
+        this.y = 0;
+        this.width = 150;
+        this.height = 200;
     }
 }

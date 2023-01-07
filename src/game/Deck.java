@@ -14,31 +14,6 @@ public class Deck {
         this.makeDeck("res/cards.txt");
     }
 
-    private Deck makeDeck(String filename) {
-        var inputStream = this.getClass().getClassLoader().getResourceAsStream(filename);
-        try (var sc = new Scanner(inputStream)) {
-            while (sc.hasNext()) {
-                int buffType = 0;
-                String name = sc.next();
-                String type = sc.next();
-                if (type.equals("buff")) {
-                    buffType = sc.nextInt();
-                }
-                int hp = sc.nextInt();
-                int damage = sc.nextInt();
-                int cost = sc.nextInt();
-                if (buffType == 0) {
-                    this.addCard(new Card(name, type, hp, damage, cost));
-                } else {
-                    this.addCard(new Card(name, type, buffType, hp, damage, cost));
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return this;
-    }
-
     public void addCard(Card card) {
         this.numberOfCards++;
         this.cards.add(card);
@@ -63,5 +38,30 @@ public class Deck {
 
     public String getNumOfCardsString() {
         return String.valueOf(this.numberOfCards);
+    }
+
+    private Deck makeDeck(String filename) {
+        var inputStream = this.getClass().getClassLoader().getResourceAsStream(filename);
+        try (var sc = new Scanner(inputStream)) {
+            while (sc.hasNext()) {
+                int buffType = 0;
+                String name = sc.next();
+                String type = sc.next();
+                if (type.equals("buff")) {
+                    buffType = sc.nextInt();
+                }
+                int hp = sc.nextInt();
+                int damage = sc.nextInt();
+                int cost = sc.nextInt();
+                if (buffType == 0) {
+                    this.addCard(new Card(name, type, hp, damage, cost));
+                } else {
+                    this.addCard(new Card(name, type, buffType, hp, damage, cost));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return this;
     }
 }
