@@ -5,13 +5,10 @@ import game.Game;
 import game.Player;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-
-import javax.imageio.ImageIO;
-import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class Panel extends JPanel {
@@ -23,7 +20,7 @@ public class Panel extends JPanel {
     private static final int PANEL_WIDTH = 1400;
     private static final int PANEL_HEIGHT = 750;
     private static final String DEFAULT_FONT = "Arial";
-    private BufferedImage[] images;
+    private ImageIcon[] images;
     private Rectangle endTurnButtonHitbox;
     private Rectangle heroHitbox;
     private ArrayList<Card> cardsHand;
@@ -46,7 +43,7 @@ public class Panel extends JPanel {
         this.addMouseListener(mouse);
         this.addMouseMotionListener(mouse);
 
-        this.images = new BufferedImage[5];
+        this.images = new ImageIcon[5];
         this.cardsHand = new ArrayList<>();
         this.cardsBoard = new ArrayList<>();
         this.slotsHand = new Slot[5];
@@ -63,16 +60,16 @@ public class Panel extends JPanel {
         }
 
         try {
-            this.images[0] = ImageIO.read(new File("./src/resources/board.png"));
-            this.images[1] = ImageIO.read(new File("./src/resources/deck.png"));
-            this.images[2] = ImageIO.read(new File("./src/resources/mage.png"));
-            this.images[3] = ImageIO.read(new File("./src/resources/warrior.png"));
-            this.images[4] = ImageIO.read(new File("./src/resources/endTurnButton.png"));
+            this.images[0] = new ImageIcon(this.getClass().getClassLoader().getResource("res/board.png"));
+            this.images[1] = new ImageIcon(this.getClass().getClassLoader().getResource("res/deck.png"));
+            this.images[2] = new ImageIcon(this.getClass().getClassLoader().getResource("res/mage.png"));
+            this.images[3] = new ImageIcon(this.getClass().getClassLoader().getResource("res/warrior.png"));
+            this.images[4] = new ImageIcon(this.getClass().getClassLoader().getResource("res/endTurnButton.png"));
 
-            this.heroHitbox = new Rectangle(this.images[2].getWidth(), this.images[2].getHeight());
+            this.heroHitbox = new Rectangle(this.images[2].getIconWidth(), this.images[2].getIconHeight());
             this.heroHitbox.setLocation(HEROES_POSITION_X, SECOND_HERO_POSITION_Y);
 
-            this.endTurnButtonHitbox = new Rectangle(this.images[4].getWidth(), this.images[4].getHeight());
+            this.endTurnButtonHitbox = new Rectangle(this.images[4].getIconWidth(), this.images[4].getIconHeight());
             this.endTurnButtonHitbox.setLocation(END_TURN_BUTTON_POSITION_X, END_TURN_BUTTON_POSITION_Y);
         } catch (Exception e) {
             System.out.println("Images not found");
@@ -164,9 +161,11 @@ public class Panel extends JPanel {
         this.repaint();
     }
 
-    public void removeGlow(int i) {
-        var currentPlayer = this.game.getOnTurnPlayer();
-        slotsBoard[currentPlayer.getId()][i].setGlow(false);
+    public void removeGlow() {
+        for (int i = 0; i < slotsBoard.length; i++)
+            for (int j = 0; j < slotsBoard[i].length; j++) {
+                slotsBoard[i][j].setGlow(false);
+            }
         this.repaint();
     }
 
@@ -208,13 +207,13 @@ public class Panel extends JPanel {
         this.repaint();
     }
 
-    private void displayHero(int pos, BufferedImage hero, Player player, Graphics2D g2d) {
+    private void displayHero(int pos, ImageIcon hero, Player player, Graphics2D g2d) {
         if (pos == 0) {
-            g2d.drawImage(hero, HEROES_POSITION_X, FIRST_HERO_POSITION_Y, this);
+            g2d.drawImage(hero.getImage(), HEROES_POSITION_X, FIRST_HERO_POSITION_Y, this);
             g2d.drawString("HP: " + player.getHpString(), HEROES_POSITION_X + 220, 650);
             g2d.drawString("MANA: " + player.getManaString(), HEROES_POSITION_X + 220, 700);
         } else {
-            g2d.drawImage(hero, HEROES_POSITION_X, SECOND_HERO_POSITION_Y, this);
+            g2d.drawImage(hero.getImage(), HEROES_POSITION_X, SECOND_HERO_POSITION_Y, this);
             g2d.drawString("HP: " + player.getHpString(), HEROES_POSITION_X + 220, 50);
             g2d.drawString("MANA: " + player.getManaString(), HEROES_POSITION_X + 220, 100);
         }
@@ -232,8 +231,8 @@ public class Panel extends JPanel {
         g2d.setColor(Color.BLACK);
         g2d.setFont(new Font(DEFAULT_FONT, Font.PLAIN, 40));
 
-        g2d.drawImage(board, 20, 10, this);
-        g2d.drawImage(endTurnButton, END_TURN_BUTTON_POSITION_X, END_TURN_BUTTON_POSITION_Y, this);
+        g2d.drawImage(board.getImage(), 20, 10, this);
+        g2d.drawImage(endTurnButton.getImage(), END_TURN_BUTTON_POSITION_X, END_TURN_BUTTON_POSITION_Y, this);
 
         if (currentPlayer == null) {
             return;
@@ -247,7 +246,7 @@ public class Panel extends JPanel {
             this.displayHero(1, mage, opponentPlayer, g2d);
         }
 
-        g2d.drawImage(deck, 1150, 200, this);
+        g2d.drawImage(deck.getImage(), 1150, 200, this);
         g2d.drawString("Cards: " + currentPlayer.getDeck().getNumOfCardsString(), 1170, 200);
 
         g2d.drawString("Player on turn: " + currentPlayer.getId(), 300, 50);

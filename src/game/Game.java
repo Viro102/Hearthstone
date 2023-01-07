@@ -3,6 +3,8 @@ package game;
 import gui.Panel;
 import gui.Frame;
 
+import javax.swing.JOptionPane;
+
 public class Game {
     private static final int PLAYER_MAX_HP = 20;
     private Player[] players;
@@ -21,7 +23,6 @@ public class Game {
         this.players[0].setTurn(true);
         this.players[0].setMana(10);
         this.players[1].setMana(10);
-
         for (int i = 0; i < 3; i++) {
             this.players[0].drawCard();
             this.players[1].drawCard();
@@ -44,6 +45,10 @@ public class Game {
                 card.setHasAttacked(false);
             }
         }
+        if (this.selectedCard != null) {
+            this.selectedCard = null;
+        }
+        this.panel.removeGlow();
         this.panel.update();
         System.out.println("Turn ended");
         Logging.printStateHand(players);
@@ -65,7 +70,7 @@ public class Game {
             // TODO
         }
 
-        if (card.getType().equals("aoe")) {
+        if (card.getType().equals("aoe spell")) {
             // TODO
         }
     }
@@ -81,7 +86,7 @@ public class Game {
     public void selectCard(Player player, int i) {
         if (selectedCard == player.getBoard().getCard(i)) {
             this.selectedCard = null;
-            this.panel.removeGlow(i);
+            this.panel.removeGlow();
         } else {
             this.selectedCard = player.getBoard().getCard(i);
             this.panel.paintGlow(i);
@@ -93,7 +98,7 @@ public class Game {
             System.out.println("No card selected");
             return;
         }
-        this.panel.removeGlow(i);
+        this.panel.removeGlow();
         var opponent = this.getOffTurnPlayer();
         var currentPlayer = this.getOnTurnPlayer();
         var targetCard = opponent.getBoard().getCard(i);
@@ -109,50 +114,29 @@ public class Game {
                 currentPlayer.getBoard().removeCard(i);
             }
         } else {
-            System.out.println("Card has already attacked");
+            JOptionPane.showMessageDialog(panel, "Card has already attacked!");
         }
 
         this.selectedCard = null;
         this.panel.update();
     }
 
-    private int indexOf(Card[] arr, Card card) {
-
-        // find length of array
-        int len = arr.length;
-        int i = 0;
-
-        // traverse in the array
-        while (i < len) {
-
-            // if the i-th element is t
-            // then return the index
-            if (arr[i] == card) {
-                return i;
-            } else {
-                i = i + 1;
-            }
-        }
-        return -1;
-    }
-
     public void attackFace() {
         var target = this.getOffTurnPlayer();
-        var attacker = this.getOnTurnPlayer();
 
         if (this.selectedCard == null) {
             System.out.println("No card selected");
             return;
         }
 
-        this.panel.removeGlow(this.indexOf(attacker.getBoard().getCards(), this.selectedCard));
+        this.panel.removeGlow();
 
         for (var c : target.getBoard().getCards()) {
             if (c == null) {
                 continue;
             }
             if (c.getType().equals("taunt")) {
-                System.out.println("Taunt card in play, cannot attack face");
+                JOptionPane.showMessageDialog(panel, "Taunt card in play, cannot attack hero");
                 return;
             }
         }
@@ -160,7 +144,7 @@ public class Game {
             target.setHp(target.getHp() - this.selectedCard.getDamage());
             this.selectedCard.setHasAttacked(true);
         } else {
-            System.out.println("Card has already attacked");
+            JOptionPane.showMessageDialog(panel, "Card has already attacked!");
         }
 
         this.selectedCard = null;
@@ -170,9 +154,9 @@ public class Game {
 
     public void isGameOver() {
         if (this.players[0].getHp() <= 0) {
-            System.out.println("Player 2 wins");
+            JOptionPane.showMessageDialog(panel, "Player 2 wins");
         } else if (this.players[1].getHp() <= 0) {
-            System.out.println("Player 1 wins");
+            JOptionPane.showMessageDialog(panel, "Player 1 wins");
         }
     }
 
