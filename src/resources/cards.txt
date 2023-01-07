@@ -1,6 +1,6 @@
-Fireball spell 0 5 3
-Fireball spell 0 5 3
-Meteor aoe 0 3 3
+Fireball spell 0 5 4
+Fireball spell 0 5 4
+Meteor aoe 0 2 3
 Grunt taunt 5 1 2
 Grunt taunt 5 1 2
 Diluc taunt 7 3 4
@@ -15,12 +15,12 @@ Warrior minion 3 3 4
 Warrior minion 3 3 4
 Wizard minion 4 7 6
 Wizard minion 4 7 6
-C'Thun minion 1 1 1
-C'Thun minion 1 1 1
+C'Thun minion 1 2 1
+C'Thun minion 1 2 1
 Archer minion 3 2 2
 Catapult minion 5 5 6
-Eula minion 8 9 7
-Eula minion 8 9 7
+Eula minion 8 9 9
+Eula minion 8 9 9
 Soldier minion 5 2 3
 Soldier minion 5 2 3
 Noelle buff 2 4 3 4
