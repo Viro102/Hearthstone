@@ -13,6 +13,7 @@ public class Card {
     private int y;
     private int width;
     private int height;
+    private boolean hasAttacked;
 
     public Card(String name, String type, int buffAmount, int hp, int damage, int cost) {
         this.name = name;
@@ -82,6 +83,14 @@ public class Card {
 
     public Rectangle getShape() {
         return new Rectangle(this.x, this.y, this.width, this.height);
+    }
+
+    public boolean hasAttacked() {
+        return this.hasAttacked;
+    }
+
+    public void setHasAttacked(boolean hasAttacked) {
+        this.hasAttacked = hasAttacked;
     }
 
     public void setHp(int hp) {
