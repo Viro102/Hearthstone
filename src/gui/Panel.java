@@ -18,18 +18,16 @@ public class Panel extends JPanel {
     private static final int END_TURN_BUTTON_POSITION_X = 910;
     private static final int END_TURN_BUTTON_POSITION_Y = 350;
     private static final int HEROES_POSITION_X = 900;
-    private static final int FIRST_HERO_POSITION_Y = 450;
+    private static final int FIRST_HERO_POSITION_Y = 460;
     private static final int SECOND_HERO_POSITION_Y = 20;
     private static final int PANEL_WIDTH = 1400;
     private static final int PANEL_HEIGHT = 750;
     private static final String DEFAULT_FONT = "Arial";
-    private BufferedImage board;
-    private BufferedImage hero;
-    private BufferedImage deck;
-    private BufferedImage endTurnButton;
+    private BufferedImage[] images;
     private Rectangle endTurnButtonHitbox;
     private Rectangle heroHitbox;
-    private ArrayList<Card> cards;
+    private ArrayList<Card> cardsHand;
+    private ArrayList<Card> cardsBoard;
     private Slot[] slotsHand;
     private Slot[][] slotsBoard;
     private Mouse mouse;
@@ -48,7 +46,9 @@ public class Panel extends JPanel {
         this.addMouseListener(mouse);
         this.addMouseMotionListener(mouse);
 
-        this.cards = new ArrayList<>();
+        this.images = new BufferedImage[5];
+        this.cardsHand = new ArrayList<>();
+        this.cardsBoard = new ArrayList<>();
         this.slotsHand = new Slot[5];
         for (int i = 0; i < this.slotsHand.length; i++) {
             this.slotsHand[i] = new Slot(30 + (i * 170), 530);
@@ -63,15 +63,16 @@ public class Panel extends JPanel {
         }
 
         try {
-            this.board = ImageIO.read(new File("./src/resources/table.png"));
-            this.deck = ImageIO.read(new File("./src/resources/deck.png"));
+            this.images[0] = ImageIO.read(new File("./src/resources/board.png"));
+            this.images[1] = ImageIO.read(new File("./src/resources/deck.png"));
+            this.images[2] = ImageIO.read(new File("./src/resources/mage.png"));
+            this.images[3] = ImageIO.read(new File("./src/resources/warrior.png"));
+            this.images[4] = ImageIO.read(new File("./src/resources/endTurnButton.png"));
 
-            this.hero = ImageIO.read(new File("./src/resources/hero.png"));
-            this.heroHitbox = new Rectangle(hero.getWidth(), hero.getHeight());
+            this.heroHitbox = new Rectangle(this.images[2].getWidth(), this.images[2].getHeight());
             this.heroHitbox.setLocation(HEROES_POSITION_X, SECOND_HERO_POSITION_Y);
 
-            this.endTurnButton = ImageIO.read(new File("./src/resources/endTurnButton.png"));
-            this.endTurnButtonHitbox = new Rectangle(endTurnButton.getWidth(), endTurnButton.getHeight());
+            this.endTurnButtonHitbox = new Rectangle(this.images[4].getWidth(), this.images[4].getHeight());
             this.endTurnButtonHitbox.setLocation(END_TURN_BUTTON_POSITION_X, END_TURN_BUTTON_POSITION_Y);
         } catch (Exception e) {
             System.out.println("Images not found");
@@ -94,10 +95,12 @@ public class Panel extends JPanel {
     }
 
     private void checkSlots() {
+        var currentPlayer = this.game.getOnTurnPlayer();
+
         for (int i = 0; i < slotsHand.length; i++) {
             if (slotsHand[i].getShape().contains(this.mouse.getPointer()) && !slotsHand[i].isFree()) {
                 System.out.println("Slot Hand: " + i + " clicked");
-                this.execute("playACard", i);
+                this.execute("playACard", currentPlayer, i);
                 return;
             }
         }
@@ -106,8 +109,14 @@ public class Panel extends JPanel {
             for (int j = 0; j < slotsBoard[i].length; j++) {
                 if (slotsBoard[i][j].getShape().contains(this.mouse.getPointer()) && !slotsBoard[i][j].isFree()) {
                     System.out.println("Slot " + i + " " + j + " clicked");
-                    this.execute("selectCard", j);
-                    return;
+                    if (currentPlayer.getId() == i) {
+                        this.execute("selectCard", currentPlayer, j);
+                        return;
+                    }
+                    if (this.game.isSelected()) {
+                        this.execute("attack", j);
+                        return;
+                    }
                 }
             }
         }
@@ -125,12 +134,11 @@ public class Panel extends JPanel {
         }
     }
 
-    private void execute(String select, int param) {
+    private void execute(String select, int param1) {
         try {
             if (this.game != null) {
-                Method method = this.game.getClass().getMethod(select, Player.class, Integer.TYPE);
-                var player = this.game.getOnTurnPlayer();
-                method.invoke(this.game, player, param);
+                Method method = this.game.getClass().getMethod(select, Integer.TYPE);
+                method.invoke(this.game, param1);
             }
         } catch (Exception e) {
             System.out.println("Error: " + e.getCause());
@@ -138,21 +146,36 @@ public class Panel extends JPanel {
         }
     }
 
-    public void renderGlow(int i) {
-        // slotsBoard[i].setGlow(true);
+    private void execute(String select, Player param1, int param2) {
+        try {
+            if (this.game != null) {
+                Method method = this.game.getClass().getMethod(select, Player.class, Integer.TYPE);
+                method.invoke(this.game, param1, param2);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getCause());
+            e.printStackTrace();
+        }
+    }
+
+    public void paintGlow(int i) {
+        var currentPlayer = this.game.getOnTurnPlayer();
+        slotsBoard[currentPlayer.getId()][i].setGlow(true);
         this.repaint();
     }
 
     public void removeGlow(int i) {
-        // slotsBoard[i].setGlow(false);
+        var currentPlayer = this.game.getOnTurnPlayer();
+        slotsBoard[currentPlayer.getId()][i].setGlow(false);
         this.repaint();
     }
 
-    public void test() {
-        var player = this.game.getOnTurnPlayer();
-        int id = player.getId();
-        var playerCardsHand = player.getHand().getCards();
-        var playerCardsBoard = player.getBoard().getCards();
+    public void update() {
+        this.cardsHand.clear();
+        this.cardsBoard.clear();
+        var players = this.game.getPlayers();
+        var currentPlayer = this.game.getOnTurnPlayer();
+        var playerCardsHand = currentPlayer.getHand().getCards();
 
         for (int i = 0; i < playerCardsHand.length; i++) {
             var cardToPaint = playerCardsHand[i];
@@ -161,71 +184,77 @@ public class Panel extends JPanel {
                 int x = this.slotsHand[i].getX();
                 int y = this.slotsHand[i].getY();
                 cardToPaint.setPosition(x, y);
-                this.cards.add(cardToPaint);
+                this.cardsHand.add(cardToPaint);
             } else {
                 this.slotsHand[i].setFree(true);
             }
         }
+        for (int j = 0; j < players.length; j++) {
+            int id = players[j].getId();
+            var playerCardsBoard = players[j].getBoard().getCards();
 
-        for (int i = 0; i < playerCardsBoard.length; i++) {
-            if (playerCardsBoard[i] != null) {
-                this.slotsBoard[id][i].setFree(false);
-                int x = this.slotsBoard[id][i].getX();
-                int y = this.slotsBoard[id][i].getY();
-                playerCardsBoard[i].setPosition(x, y);
-                this.cards.add(playerCardsBoard[i]);
-            } else {
-                this.slotsBoard[id][i].setFree(true);
+            for (int i = 0; i < playerCardsBoard.length; i++) {
+                if (playerCardsBoard[i] != null) {
+                    this.slotsBoard[id][i].setFree(false);
+                    int x = this.slotsBoard[id][i].getX();
+                    int y = this.slotsBoard[id][i].getY();
+                    playerCardsBoard[i].setPosition(x, y);
+                    this.cardsBoard.add(playerCardsBoard[i]);
+                } else {
+                    this.slotsBoard[id][i].setFree(true);
+                }
             }
         }
         this.repaint();
     }
 
-    private void eraseCardHand(Card card) {
-        if (this.cards.contains(card)) {
-            this.cards.remove(card);
-            this.repaint();
+    private void displayHero(int pos, BufferedImage hero, Player player, Graphics2D g2d) {
+        if (pos == 0) {
+            g2d.drawImage(hero, HEROES_POSITION_X, FIRST_HERO_POSITION_Y, this);
+            g2d.drawString("HP: " + player.getHpString(), HEROES_POSITION_X + 220, 650);
+            g2d.drawString("MANA: " + player.getManaString(), HEROES_POSITION_X + 220, 700);
         } else {
-            System.out.println("Card not found");
+            g2d.drawImage(hero, HEROES_POSITION_X, SECOND_HERO_POSITION_Y, this);
+            g2d.drawString("HP: " + player.getHpString(), HEROES_POSITION_X + 220, 50);
+            g2d.drawString("MANA: " + player.getManaString(), HEROES_POSITION_X + 220, 100);
         }
     }
 
     private void paintUI(Graphics2D g2d) {
         var currentPlayer = this.game.getOnTurnPlayer();
         var opponentPlayer = this.game.getOffTurnPlayer();
+        var board = this.images[0];
+        var deck = this.images[1];
+        var mage = this.images[2];
+        var warrior = this.images[3];
+        var endTurnButton = this.images[4];
+
         g2d.setColor(Color.BLACK);
         g2d.setFont(new Font(DEFAULT_FONT, Font.PLAIN, 40));
 
-        g2d.drawImage(this.board, 20, 10, this);
-        g2d.drawImage(this.endTurnButton, END_TURN_BUTTON_POSITION_X, END_TURN_BUTTON_POSITION_Y, this);
+        g2d.drawImage(board, 20, 10, this);
+        g2d.drawImage(endTurnButton, END_TURN_BUTTON_POSITION_X, END_TURN_BUTTON_POSITION_Y, this);
 
         if (currentPlayer == null) {
             return;
         }
-        g2d.drawImage(this.hero, HEROES_POSITION_X, FIRST_HERO_POSITION_Y, this);
-        g2d.drawString("HP: " + currentPlayer.getHpString(), HEROES_POSITION_X + 220, 650);
-        g2d.drawString("MANA: " + currentPlayer.getManaString(), HEROES_POSITION_X + 220, 700);
 
-        g2d.drawImage(this.hero, HEROES_POSITION_X, SECOND_HERO_POSITION_Y, this);
-        g2d.drawString("HP: " + opponentPlayer.getHpString(), HEROES_POSITION_X + 220, 50);
-        g2d.drawString("MANA: " + opponentPlayer.getManaString(), HEROES_POSITION_X + 220, 100);
+        if (currentPlayer.getArchetype().equals("mage")) {
+            this.displayHero(0, mage, currentPlayer, g2d);
+            this.displayHero(1, warrior, opponentPlayer, g2d);
+        } else if (currentPlayer.getArchetype().equals("warrior")) {
+            this.displayHero(0, warrior, currentPlayer, g2d);
+            this.displayHero(1, mage, opponentPlayer, g2d);
+        }
 
-        g2d.drawImage(this.deck, 1150, 200, this);
+        g2d.drawImage(deck, 1150, 200, this);
         g2d.drawString("Cards: " + currentPlayer.getDeck().getNumOfCardsString(), 1170, 200);
 
-        g2d.drawString("Player: " + currentPlayer.getId(), 600, 50);
+        g2d.drawString("Player on turn: " + currentPlayer.getId(), 300, 50);
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        var g2d = (Graphics2D) g;
-        super.paintComponent(g2d);
-        paintUI(g2d);
-
-        for (var card : this.cards) {
-            if (card == null) {
-                continue;
-            }
+    private void paintCards(Graphics2D g2d, ArrayList<Card> cards) {
+        for (var card : cards) {
             int attPosY = card.getY() + card.getHeight();
             int attPosX = card.getX() + 2;
 
@@ -253,6 +282,17 @@ public class Panel extends JPanel {
             g2d.setFont(new Font(DEFAULT_FONT, Font.ITALIC, 17));
             g2d.drawString(card.getType(), typePosX, typePosY);
         }
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        var g2d = (Graphics2D) g;
+        super.paintComponent(g2d);
+        paintUI(g2d);
+        var cards = new ArrayList<Card>();
+        cards.addAll(this.cardsHand);
+        cards.addAll(this.cardsBoard);
+        this.paintCards(g2d, cards);
 
         for (int i = 0; i < this.slotsBoard.length; i++) {
             for (int j = 0; j < this.slotsBoard[i].length; j++) {
