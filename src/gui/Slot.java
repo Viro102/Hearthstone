@@ -9,12 +9,10 @@ public class Slot {
     private int y;
     private int width;
     private int height;
-    private int id;
 
-    public Slot(int id, int x, int y) {
+    public Slot(int x, int y) {
         this.free = true;
         this.glow = false;
-        this.id = id;
         this.x = x;
         this.y = y;
         this.width = 150;
@@ -47,10 +45,6 @@ public class Slot {
 
     public Rectangle getShape() {
         return new Rectangle(this.x, this.y, this.width, this.height);
-    }
-
-    public int getId() {
-        return this.id;
     }
 
     public void setGlow(boolean glow) {

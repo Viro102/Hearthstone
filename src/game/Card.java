@@ -21,7 +21,7 @@ public class Card {
         this.hp = hp;
         this.damage = damage;
         this.cost = cost;
-        this.initPos();
+        this.init();
     }
 
     public Card(String name, String type, int hp, int damage, int cost) {
@@ -30,10 +30,10 @@ public class Card {
         this.hp = hp;
         this.damage = damage;
         this.cost = cost;
-        this.initPos();
+        this.init();
     }
 
-    private void initPos() {
+    private void init() {
         this.x = 0;
         this.y = 0;
         this.width = 150;
@@ -84,24 +84,12 @@ public class Card {
         return new Rectangle(this.x, this.y, this.width, this.height);
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public void setHp(int hp) {
         this.hp = hp;
     }
 
     public void setDamage(int damage) {
         this.damage = damage;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
     }
 
     public void setX(int x) {
@@ -113,7 +101,7 @@ public class Card {
     }
 
     public void setPosition(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.setX(x);
+        this.setY(y);
     }
 }

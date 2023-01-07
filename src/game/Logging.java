@@ -28,7 +28,7 @@ public class Logging {
         }
     }
 
-    public static void printStateTables(Player[] player) {
+    public static void printStateBoard(Player[] player) {
         System.out.println("\nPlayer 1's table:");
         player[0].getBoard().printBoard();
 
@@ -36,7 +36,7 @@ public class Logging {
         player[1].getBoard().printBoard();
     }
 
-    public static void printStateHands(Player[] player) {
+    public static void printStateHand(Player[] player) {
         System.out.println("\nPlayer 1's hand:");
         player[0].getHand().printHand();
 

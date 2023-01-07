@@ -1,21 +1,14 @@
 package game;
 
-import gui.Slot;
-
 public class Hand {
     private static final int MAX_CARDS = 5;
     private Card[] cards;
-    private Slot[] slots;
 
     public Hand() {
         this.cards = new Card[5];
-        this.slots = new Slot[5];
-        for (int i = 0; i < this.slots.length; i++) {
-            this.slots[i] = new Slot(i, 30 + (i * 170), 530);
-        }
     }
 
-    public void addCards(Card card) {
+    public void addCard(Card card) {
         for (int i = 0; i < this.cards.length; i++) {
             if (this.cards[i] == null) {
                 this.cards[i] = card;
@@ -24,11 +17,11 @@ public class Hand {
         }
     }
 
-    public void removeCards(int i) {
+    public void removeCard(int i) {
         this.cards[i] = null;
     }
 
-    public void removeCards(Card card) {
+    public void removeCard(Card card) {
         for (int i = 0; i < this.cards.length; i++) {
             if (this.cards[i] == card) {
                 this.cards[i] = null;
@@ -39,6 +32,10 @@ public class Hand {
 
     public Card getCard(int i) {
         return this.cards[i];
+    }
+
+    public Card[] getCards() {
+        return this.cards;
     }
 
     public int getNumOfCards() {
@@ -55,22 +52,6 @@ public class Hand {
         return this.getNumOfCards() == MAX_CARDS;
     }
 
-    public void setSlotAsFull(int i) {
-        this.slots[i].setFree(false);
-    }
-
-    public void setSlotAsFree(int i) {
-        this.slots[i].setFree(true);
-    }
-
-    public Slot[] getSlots() {
-        return this.slots;
-    }
-
-    public Slot getSlot(int i) {
-        return this.slots[i];
-    }
-
     public void printHand() {
         for (Card card : this.cards) {
             if (card == null) {
@@ -84,4 +65,5 @@ public class Hand {
             System.out.println();
         }
     }
+
 }

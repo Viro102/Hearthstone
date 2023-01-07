@@ -28,9 +28,9 @@ public class Deck {
                 int damage = sc.nextInt();
                 int cost = sc.nextInt();
                 if (buffType == 0) {
-                    this.addCards(new Card(name, type, hp, damage, cost));
+                    this.addCard(new Card(name, type, hp, damage, cost));
                 } else {
-                    this.addCards(new Card(name, type, buffType, hp, damage, cost));
+                    this.addCard(new Card(name, type, buffType, hp, damage, cost));
                 }
             }
         } catch (Exception e) {
@@ -39,12 +39,12 @@ public class Deck {
         return this;
     }
 
-    public void addCards(Card card) {
+    public void addCard(Card card) {
         this.numberOfCards++;
         this.cards.add(card);
     }
 
-    public void removeCards(Card card) {
+    public void removeCard(Card card) {
         this.numberOfCards--;
         this.cards.remove(card);
     }
