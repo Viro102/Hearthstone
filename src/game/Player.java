@@ -5,6 +5,7 @@ import java.util.Random;
 public class Player {
     private static final int MAX_MANA = 10;
     private int hp;
+    private int id;
     private int mana;
     private boolean turn;
     private Hand hand;
@@ -12,13 +13,14 @@ public class Player {
     private Deck deck;
     private Random random;
 
-    public Player(int hp, String position) {
+    public Player(int hp, int id) {
         this.hp = hp;
+        this.id = id;
         this.mana = 0;
         this.turn = false;
         this.hand = new Hand();
         this.deck = new Deck();
-        this.board = new Board(position);
+        this.board = new Board();
         this.random = new Random();
     }
 
@@ -26,8 +28,8 @@ public class Player {
         if (!this.hand.isFull()) {
             if (!this.deck.getCards().isEmpty()) {
                 var drawnCard = this.deck.getCard(random.nextInt(this.deck.getNumOfCards()));
-                this.hand.addCards(drawnCard);
-                this.deck.removeCards(drawnCard);
+                this.hand.addCard(drawnCard);
+                this.deck.removeCard(drawnCard);
                 return drawnCard;
             } else {
                 System.out.println("You have no more cards in your deck");
@@ -41,8 +43,8 @@ public class Player {
     public Card playCard(int i) {
         var card = this.hand.getCard(i);
         if (this.mana >= card.getCost()) {
-            this.board.addCards(card);
-            this.hand.removeCards(i);
+            this.board.addCard(card);
+            this.hand.removeCard(i);
             this.mana -= card.getCost();
             return card;
         } else {
@@ -52,7 +54,7 @@ public class Player {
     }
 
     public void removeCard(Card card) {
-        this.hand.removeCards(card);
+        this.hand.removeCard(card);
     }
 
     public Board getBoard() {
@@ -73,6 +75,10 @@ public class Player {
 
     public int getHp() {
         return this.hp;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     public String getHpString() {
