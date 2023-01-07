@@ -14,7 +14,7 @@ public class Game {
     public Game() {
         this.players = new Player[2];
         this.panel = new Panel(this);
-        new Frame(panel);
+        new Frame(this.panel);
     }
 
     public void startGame(String player1, String player2) {
@@ -28,7 +28,7 @@ public class Game {
             this.players[1].drawCard();
         }
         this.panel.update();
-        Logging.printStateAll(players);
+        Logging.printStateAll(this.players);
     }
 
     public void endTurn() {
@@ -51,7 +51,7 @@ public class Game {
         this.panel.removeGlow();
         this.panel.update();
         System.out.println("Turn ended");
-        Logging.printStateHand(players);
+        Logging.printStateHand(this.players);
     }
 
     private void specialCard(Player player, Card card) {
@@ -67,7 +67,7 @@ public class Game {
         }
 
         if (card.getType().equals("spell")) {
-            // TODO
+            this.selectedCard = card;
         }
 
         if (card.getType().equals("aoe spell")) {
@@ -84,7 +84,7 @@ public class Game {
     }
 
     public void selectCard(Player player, int i) {
-        if (selectedCard == player.getBoard().getCard(i)) {
+        if (this.selectedCard == player.getBoard().getCard(i)) {
             this.selectedCard = null;
             this.panel.removeGlow();
         } else {
@@ -114,7 +114,7 @@ public class Game {
                 currentPlayer.getBoard().removeCard(i);
             }
         } else {
-            JOptionPane.showMessageDialog(panel, "Card has already attacked!");
+            JOptionPane.showMessageDialog(this.panel, "Card has already attacked!");
         }
 
         this.selectedCard = null;
@@ -136,7 +136,7 @@ public class Game {
                 continue;
             }
             if (c.getType().equals("taunt")) {
-                JOptionPane.showMessageDialog(panel, "Taunt card in play, cannot attack hero");
+                JOptionPane.showMessageDialog(this.panel, "Taunt card in play, cannot attack hero");
                 return;
             }
         }
@@ -144,7 +144,7 @@ public class Game {
             target.setHp(target.getHp() - this.selectedCard.getDamage());
             this.selectedCard.setHasAttacked(true);
         } else {
-            JOptionPane.showMessageDialog(panel, "Card has already attacked!");
+            JOptionPane.showMessageDialog(this.panel, "Card has already attacked!");
         }
 
         this.selectedCard = null;
@@ -154,9 +154,9 @@ public class Game {
 
     public void isGameOver() {
         if (this.players[0].getHp() <= 0) {
-            JOptionPane.showMessageDialog(panel, "Player 2 wins");
+            JOptionPane.showMessageDialog(this.panel, "Player 2 wins");
         } else if (this.players[1].getHp() <= 0) {
-            JOptionPane.showMessageDialog(panel, "Player 1 wins");
+            JOptionPane.showMessageDialog(this.panel, "Player 1 wins");
         }
     }
 

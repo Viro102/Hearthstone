@@ -1,6 +1,7 @@
 package gui;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 public class Frame extends JFrame {
     public Frame(Panel panel) {

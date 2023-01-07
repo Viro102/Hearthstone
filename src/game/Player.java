@@ -31,7 +31,7 @@ public class Player {
     public Card drawCard() {
         if (!this.hand.isFull()) {
             if (!this.deck.getCards().isEmpty()) {
-                var drawnCard = this.deck.getCard(random.nextInt(this.deck.getNumOfCards()));
+                var drawnCard = this.deck.getCard(this.random.nextInt(this.deck.getNumOfCards()));
                 this.hand.addCard(drawnCard);
                 this.deck.removeCard(drawnCard);
                 return drawnCard;
@@ -124,7 +124,7 @@ public class Player {
     }
 
     public boolean isTurn() {
-        return turn;
+        return this.turn;
     }
 
     public void setTurn(boolean turn) {
