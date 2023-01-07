@@ -1,3 +1,3 @@
-## Getting Started
+## Basic info
 
 WIP Hearthstone clone
