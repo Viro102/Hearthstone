@@ -14,10 +14,10 @@ public class Logging {
         players[1].getHand().printHand();
 
         System.out.println("\nPlayer 1's table:");
-        players[0].getTable().printTable();
+        players[0].getBoard().printBoard();
 
         System.out.println("\nPlayer 2's table:");
-        players[1].getTable().printTable();
+        players[1].getBoard().printBoard();
     }
 
     public static void printStatePlayers(Player[] players) {
@@ -30,10 +30,10 @@ public class Logging {
 
     public static void printStateTables(Player[] player) {
         System.out.println("\nPlayer 1's table:");
-        player[0].getTable().printTable();
+        player[0].getBoard().printBoard();
 
         System.out.println("\nPlayer 2's table:");
-        player[1].getTable().printTable();
+        player[1].getBoard().printBoard();
     }
 
     public static void printStateHands(Player[] player) {
