@@ -7,7 +7,7 @@ public class Frame extends JFrame {
         this.add(panel);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setTitle("Hearthstone");
-        this.setResizable(false);
+        this.setResizable(true);
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
