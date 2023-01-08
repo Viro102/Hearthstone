@@ -58,9 +58,13 @@ public class Panel extends JPanel {
         this.checkSlots();
     }
 
-    public void addGlow(int i) {
+    public void addGlow(int i, String where) {
         var currentPlayer = this.game.getOnTurnPlayer();
-        this.slotsBoard[currentPlayer.getId()][i].setGlow(true);
+        if (where.equals("hand")) {
+            this.slotsHand[i].setGlow(true);
+        } else if (where.equals("board")) {
+            this.slotsBoard[currentPlayer.getId()][i].setGlow(true);
+        }
         this.repaint();
     }
 
@@ -119,8 +123,6 @@ public class Panel extends JPanel {
     protected void paintComponent(Graphics g) {
         var g2d = (Graphics2D) g;
         super.paintComponent(g2d);
-        // g2d.setColor(this.getBackground());
-        // g2d.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
         this.paintUI(g2d);
         var cards = new ArrayList<Card>();
         cards.addAll(this.cardsHand);
@@ -198,7 +200,7 @@ public class Panel extends JPanel {
                         .getShape()
                         .contains(this.mouse.getPointer()) && !this.slotsBoard[i][j].isFree()) {
                     if (currentPlayer.getId() == i) {
-                        this.execute("selectCard", currentPlayer, j);
+                        this.execute("selectCardBoard", currentPlayer, j);
                         return;
                     }
                     if (this.game.isSelected()) {
@@ -222,10 +224,10 @@ public class Panel extends JPanel {
         }
     }
 
-    private void execute(String select, int param1) {
+    private void execute(String methodName, int param1) {
         try {
             if (this.game != null) {
-                Method method = this.game.getClass().getMethod(select, Integer.TYPE);
+                Method method = this.game.getClass().getMethod(methodName, Integer.TYPE);
                 method.invoke(this.game, param1);
             }
         } catch (Exception e) {

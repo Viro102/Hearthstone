@@ -69,13 +69,23 @@ public class Game {
         }
     }
 
-    public void selectCard(Player player, int i) {
+    public void selectCardBoard(Player player, int i) {
         if (this.selectedCard == player.getBoard().getCard(i)) {
             this.selectedCard = null;
             this.panel.removeGlow();
         } else {
             this.selectedCard = player.getBoard().getCard(i);
-            this.panel.addGlow(i);
+            this.panel.addGlow(i, "board");
+        }
+    }
+
+    public void selectCardHand(Player player, int i) {
+        if (this.selectedCard == player.getHand().getCard(i)) {
+            this.selectedCard = null;
+            this.panel.removeGlow();
+        } else {
+            this.selectedCard = player.getHand().getCard(i);
+            this.panel.addGlow(i, "hand");
         }
     }
 
