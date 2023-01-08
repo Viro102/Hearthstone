@@ -245,7 +245,7 @@ public class Game {
     /**
      * Gets the players
      * 
-     * @return Players
+     * @return Array of players
      */
     public Player[] getPlayers() {
         return this.players;
