@@ -11,8 +11,8 @@ Murloc minion 2 1 2
 Murloc minion 2 1 2
 Paimon minion 1 1 0
 Paimon minion 1 1 0
-Warrior minion 3 3 4
-Warrior minion 3 3 4
+Warrior minion 3 3 3
+Warrior minion 3 3 3
 Wizard minion 4 7 6
 Wizard minion 4 7 6
 C'Thun minion 1 2 1
