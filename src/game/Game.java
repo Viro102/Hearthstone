@@ -110,6 +110,8 @@ public class Game {
             this.panel.removeGlow();
         } else if (this.selectedCard != null) {
             JOptionPane.showMessageDialog(this.panel, "Can't select two cards at once");
+            this.selectedCard = null;
+            this.panel.removeGlow();
         }
         if (this.selectedCard == null) {
             this.selectedCard = player.getBoard().getCard(i);
