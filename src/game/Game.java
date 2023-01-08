@@ -105,6 +105,10 @@ public class Game {
      * @param i      Index of the card on the board
      */
     public void selectCardBoard(Player player, int i) {
+        if (this.selectedCard == null) {
+            this.selectedCard = player.getBoard().getCard(i);
+            this.panel.addGlow(i, "board");
+        }
         if (this.selectedCard == player.getBoard().getCard(i)) {
             this.selectedCard = null;
             this.panel.removeGlow();
@@ -112,10 +116,6 @@ public class Game {
             JOptionPane.showMessageDialog(this.panel, "Can't select two cards at once");
             this.selectedCard = null;
             this.panel.removeGlow();
-        }
-        if (this.selectedCard == null) {
-            this.selectedCard = player.getBoard().getCard(i);
-            this.panel.addGlow(i, "board");
         }
     }
 
