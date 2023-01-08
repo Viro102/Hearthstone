@@ -263,9 +263,9 @@ public class Game {
      */
     public void isGameOver() {
         if (this.players[0].getHp() <= 0) {
-            JOptionPane.showMessageDialog(this.panel, "Player 2 (" + players[1].getArchetype() + ") wins");
+            JOptionPane.showMessageDialog(this.panel, "Player 2 (" + this.players[1].getArchetype() + ") wins");
         } else if (this.players[1].getHp() <= 0) {
-            JOptionPane.showMessageDialog(this.panel, "Player 1 (" + players[0].getArchetype() + ") wins");
+            JOptionPane.showMessageDialog(this.panel, "Player 1 (" + this.players[0].getArchetype() + ") wins");
         }
     }
 
