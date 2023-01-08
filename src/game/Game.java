@@ -108,11 +108,11 @@ public class Game {
         if (this.selectedCard == null) {
             this.selectedCard = player.getBoard().getCard(i);
             this.panel.addGlow(i, "board");
-        }
-        if (this.selectedCard == player.getBoard().getCard(i)) {
+
+        } else if (this.selectedCard == player.getBoard().getCard(i)) {
             this.selectedCard = null;
             this.panel.removeGlow();
-        } else if (this.selectedCard != null) {
+        } else {
             JOptionPane.showMessageDialog(this.panel, "Can't select two cards at once");
             this.selectedCard = null;
             this.panel.removeGlow();
@@ -292,6 +292,7 @@ public class Game {
 
         if (card.getType().equals("aoe")) {
             this.getOnTurnPlayer().getHand().removeCard(card);
+            this.selectedCard = null;
             for (var target : this.getOffTurnPlayer().getBoard().getCards()) {
                 if (target == null) {
                     continue;
