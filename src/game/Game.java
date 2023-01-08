@@ -75,7 +75,7 @@ public class Game {
             this.panel.removeGlow();
         } else {
             this.selectedCard = player.getBoard().getCard(i);
-            this.panel.paintGlow(i);
+            this.panel.addGlow(i);
         }
     }
 
@@ -147,21 +147,27 @@ public class Game {
 
     public Player getOnTurnPlayer() {
         for (var player : this.players) {
+            if (player == null) {
+                continue;
+            }
             if (player.isTurn()) {
                 return player;
             }
         }
-        System.out.println("No player on turn");
+        System.out.println("Error");
         return null;
     }
 
     public Player getOffTurnPlayer() {
         for (var player : this.players) {
+            if (player == null) {
+                continue;
+            }
             if (!player.isTurn()) {
                 return player;
             }
         }
-        System.out.println("No player off turn");
+        System.out.println("Error");
         return null;
     }
 
@@ -200,6 +206,7 @@ public class Game {
         }
 
         if (card.getType().equals("aoe")) {
+            // TODO
             this.selectedCard = card;
         }
     }

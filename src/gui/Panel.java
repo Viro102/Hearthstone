@@ -58,7 +58,7 @@ public class Panel extends JPanel {
         this.checkSlots();
     }
 
-    public void paintGlow(int i) {
+    public void addGlow(int i) {
         var currentPlayer = this.game.getOnTurnPlayer();
         this.slotsBoard[currentPlayer.getId()][i].setGlow(true);
         this.repaint();
@@ -69,6 +69,10 @@ public class Panel extends JPanel {
             for (int j = 0; j < this.slotsBoard[i].length; j++) {
                 this.slotsBoard[i][j].setGlow(false);
             }
+        }
+
+        for (int i = 0; i < this.slotsHand.length; i++) {
+            this.slotsHand[i].setGlow(false);
         }
         this.repaint();
     }
@@ -115,6 +119,8 @@ public class Panel extends JPanel {
     protected void paintComponent(Graphics g) {
         var g2d = (Graphics2D) g;
         super.paintComponent(g2d);
+        // g2d.setColor(this.getBackground());
+        // g2d.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
         this.paintUI(g2d);
         var cards = new ArrayList<Card>();
         cards.addAll(this.cardsHand);
@@ -123,14 +129,17 @@ public class Panel extends JPanel {
 
         for (int i = 0; i < this.slotsBoard.length; i++) {
             for (int j = 0; j < this.slotsBoard[i].length; j++) {
-                if (this.slotsBoard[i][j].isFree()) {
-                    continue;
-                }
-
-                if (this.slotsBoard[i][j].isGlow()) {
+                if (!this.slotsBoard[i][j].isFree() && this.slotsBoard[i][j].isGlow()) {
                     g2d.setColor(Color.YELLOW);
-                    g2d.fill(this.slotsBoard[i][j].getShape());
+                    g2d.draw(this.slotsBoard[i][j].getShape());
                 }
+            }
+        }
+
+        for (int i = 0; i < this.slotsHand.length; i++) {
+            if (!this.slotsHand[i].isFree() && this.slotsHand[i].isGlow()) {
+                g2d.setColor(Color.YELLOW);
+                g2d.draw(this.slotsHand[i].getShape());
             }
         }
     }
@@ -279,7 +288,7 @@ public class Panel extends JPanel {
         g2d.drawImage(deck.getImage(), 1150, 200, this);
         g2d.drawString("Cards: " + currentPlayer.getDeck().getNumOfCardsString(), 1170, 200);
 
-        g2d.drawString("Player on turn: " + currentPlayer.getId(), 300, 50);
+        g2d.drawString("Player on turn: " + currentPlayer.getArchetype(), 300, 50);
     }
 
     private void paintCards(Graphics2D g2d, ArrayList<Card> cards) {
