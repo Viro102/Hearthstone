@@ -1,3 +1,11 @@
+/**
+ * Game class
+ * 
+ * Main class of the game, contains all the logic and methods to play the game
+ * 
+ * @author Adam Virostek
+ */
+
 package game;
 
 import gui.Panel;
@@ -12,6 +20,11 @@ public class Game {
     private Card selectedCard;
     private int turnCounter;
 
+    /**
+     * Game constructor
+     * 
+     * Creates a new game with two players and initializes the GUI
+     */
     public Game() {
         this.players = new Player[2];
         this.panel = new Panel(this);
@@ -20,6 +33,12 @@ public class Game {
         new Frame(this.panel);
     }
 
+    /**
+     * Starts the game
+     * 
+     * @param player1 Name of the first player
+     * @param player2 Name of the second player
+     */
     public void startGame(String player1, String player2) {
         this.players[0] = new Player(PLAYER_MAX_HP, 0, player1);
         this.players[1] = new Player(PLAYER_MAX_HP, 1, player2);
@@ -33,6 +52,9 @@ public class Game {
         Logging.printStateAll(this.players);
     }
 
+    /**
+     * Ends the turn
+     */
     public void endTurn() {
         if (this.turnCounter >= 30) {
             JOptionPane.showMessageDialog(this.panel, "Game over, no one won");
@@ -61,6 +83,13 @@ public class Game {
         Logging.printStateHand(this.players);
     }
 
+    /**
+     * Plays a card from the specified player's hand
+     * 
+     * @param player Player who plays the card
+     * @param i      Index of the card in the player's hand
+     */
+
     public void playACard(Player player, int i) {
         var card = player.playCard(i);
         if (card != null) {
@@ -69,6 +98,12 @@ public class Game {
         }
     }
 
+    /**
+     * Selects a card on the board of the specified player
+     * 
+     * @param player Player whose board is being selected
+     * @param i      Index of the card on the board
+     */
     public void selectCardBoard(Player player, int i) {
         if (this.selectedCard == player.getBoard().getCard(i)) {
             this.selectedCard = null;
@@ -82,6 +117,12 @@ public class Game {
         }
     }
 
+    /**
+     * Selects a card on the hand of the specified player
+     * 
+     * @param player Player whose hand is being selected
+     * @param i      Index of the card on the hand
+     */
     public void selectCardHand(Player player, int i) {
         if (this.selectedCard == player.getHand().getCard(i)) {
             this.selectedCard = null;
@@ -92,6 +133,12 @@ public class Game {
         }
     }
 
+    /**
+     * The player on turn attacks the specified card on the opponent's board, the
+     * card which is attacking must be selected beforehand
+     * 
+     * @param i Index of the card on the opponent's board
+     */
     public void attack(int i) {
         if (this.selectedCard == null) {
             System.out.println("No card selected");
@@ -120,6 +167,10 @@ public class Game {
         this.panel.update();
     }
 
+    /**
+     * The player on turn attacks the opponent's hero, the card which is attacking
+     * must be selected beforehand
+     */
     public void attackFace() {
         var target = this.getOffTurnPlayer();
         var attacker = this.getOnTurnPlayer();
@@ -155,6 +206,11 @@ public class Game {
         this.isGameOver();
     }
 
+    /**
+     * Gets the player on turn
+     * 
+     * @return Player on turn
+     */
     public Player getOnTurnPlayer() {
         for (var player : this.players) {
             if (player == null) {
@@ -168,6 +224,11 @@ public class Game {
         return null;
     }
 
+    /**
+     * Gets the player off turn
+     * 
+     * @return Player off turn
+     */
     public Player getOffTurnPlayer() {
         for (var player : this.players) {
             if (player == null) {
@@ -181,14 +242,25 @@ public class Game {
         return null;
     }
 
+    /**
+     * Gets the players
+     * 
+     * @return Players
+     */
     public Player[] getPlayers() {
         return this.players;
     }
 
+    /**
+     * @return is a card selected
+     */
     public boolean isSelected() {
         return this.selectedCard != null;
     }
 
+    /**
+     * Method to check if the game is over
+     */
     public void isGameOver() {
         if (this.players[0].getHp() <= 0) {
             JOptionPane.showMessageDialog(this.panel, "Player 2 (" + players[1].getArchetype() + ") wins");

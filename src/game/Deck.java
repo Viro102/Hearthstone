@@ -1,3 +1,11 @@
+/**
+ * Deck class
+ * 
+ * Contains a list of cards and methods to manipulate them
+ * 
+ * @author Adam Virostek
+ */
+
 package game;
 
 import java.util.ArrayList;
@@ -8,30 +16,63 @@ public class Deck {
     private int numberOfCards;
     private ArrayList<Card> cards;
 
-    public Deck() {
+    /**
+     * Deck constructor
+     * 
+     * Creates a new deck from the cards in the specified file
+     * 
+     * @param filename Name of the file containing the cards
+     */
+    public Deck(String filename) {
         this.cards = new ArrayList<>();
         this.numberOfCards = 0;
-        this.makeDeck("res/cards.txt");
+        this.makeDeck(filename);
     }
 
+    /**
+     * Adds a card to the deck
+     * 
+     * @param card Card to be added
+     */
     public void addCard(Card card) {
         this.numberOfCards++;
         this.cards.add(card);
     }
 
+    /**
+     * Removes a card from the deck
+     * 
+     * @param card Card to be removed
+     */
     public void removeCard(Card card) {
         this.numberOfCards--;
         this.cards.remove(card);
     }
 
+    /**
+     * Gets the list of cards in the deck
+     * 
+     * @return List of cards in the deck
+     */
     public List<Card> getCards() {
         return this.cards;
     }
 
+    /**
+     * Gets a card from the deck
+     * 
+     * @param i Index of the card to be returned
+     * @return Card at the specified index
+     */
     public Card getCard(int i) {
         return this.cards.get(i);
     }
 
+    /**
+     * Gets the number of cards in the deck
+     * 
+     * @return Number of cards in the deck
+     */
     public int getNumOfCards() {
         return this.numberOfCards;
     }

@@ -1,3 +1,12 @@
+/**
+ * Panel class
+ * 
+ * Main panel of the game, uses javax.swing.JPanel to create a panel,
+ * contains all the GUI elements and methods to display the game
+ * 
+ * @author Adam Virostek
+ */
+
 package gui;
 
 import java.awt.Color;
@@ -35,6 +44,13 @@ public class Panel extends JPanel {
     private Mouse mouse;
     private Game game;
 
+    /**
+     * Panel constructor
+     * 
+     * Initializes the panel and sets the game to be displayed in it
+     * 
+     * @param game Game to be displayed in the panel
+     */
     public Panel(Game game) {
         this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         this.setBackground(Color.LIGHT_GRAY);
@@ -43,6 +59,10 @@ public class Panel extends JPanel {
         this.init();
     }
 
+    /**
+     * Method which is called when user clicks on the panel,
+     * uses the mouse class to get the position of the click
+     */
     public void click() {
         if (this.endTurnButtonHitbox.contains(this.mouse.getPointer())) {
             this.execute("endTurn");
@@ -58,6 +78,12 @@ public class Panel extends JPanel {
         this.checkSlots();
     }
 
+    /**
+     * Adds glow to the slot where the card is located
+     * 
+     * @param i     Index of the card
+     * @param where Where the card is located (hand or board)
+     */
     public void addGlow(int i, String where) {
         var currentPlayer = this.game.getOnTurnPlayer();
         if (where.equals("hand")) {
@@ -68,6 +94,9 @@ public class Panel extends JPanel {
         this.repaint();
     }
 
+    /**
+     * Removes glow from all slots
+     */
     public void removeGlow() {
         for (int i = 0; i < this.slotsBoard.length; i++) {
             for (int j = 0; j < this.slotsBoard[i].length; j++) {
@@ -81,6 +110,10 @@ public class Panel extends JPanel {
         this.repaint();
     }
 
+    /**
+     * Method which handles correct drawing of the cards,
+     * it sets the appropriate position to the cards
+     */
     public void update() {
         this.cardsHand.clear();
         this.cardsBoard.clear();

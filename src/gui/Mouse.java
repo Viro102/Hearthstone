@@ -1,3 +1,11 @@
+
+/**
+ * Mouse class
+ * 
+ * Class that handles mouse events
+ * 
+ * @author Adam Virostek
+ */
 package gui;
 
 import java.awt.Point;
@@ -10,10 +18,20 @@ public class Mouse implements MouseListener, MouseMotionListener {
     private Point p;
     private Panel panel;
 
+    /**
+     * Mouse constructor
+     * 
+     * @param panel Panel to add the mouseListener to
+     */
     public Mouse(Panel panel) {
         this.panel = panel;
     }
 
+    /**
+     * Gets the current pointer position
+     * 
+     * @return Current pointer position
+     */
     public Point getPointer() {
         return this.p;
     }

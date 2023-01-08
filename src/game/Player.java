@@ -1,3 +1,11 @@
+/**
+ * Player class
+ * 
+ * Contains all the information about a player
+ * 
+ * @author Adam Virostek
+ */
+
 package game;
 
 import java.util.Random;
@@ -15,6 +23,15 @@ public class Player {
     private Deck deck;
     private Random random;
 
+    /**
+     * Player constructor
+     * 
+     * Creates a new player with the specified hp, id, and archetype
+     * 
+     * @param hp        health points
+     * @param id        player id
+     * @param archetype player archetype
+     */
     public Player(int hp, int id, String archetype) {
         this.archetype = archetype;
         this.hp = hp;
@@ -23,11 +40,16 @@ public class Player {
         this.currentMaxMana = 0;
         this.turn = false;
         this.hand = new Hand();
-        this.deck = new Deck();
+        this.deck = new Deck("res/cards.txt");
         this.board = new Board();
         this.random = new Random();
     }
 
+    /**
+     * Draws a randomly selected card from the deck
+     * 
+     * @return Card drawn
+     */
     public Card drawCard() {
         if (!this.hand.isFull()) {
             if (!this.deck.getCards().isEmpty()) {
@@ -44,6 +66,12 @@ public class Player {
         return null;
     }
 
+    /**
+     * Plays a card from the hand to the board if possible
+     * 
+     * @param i Index of the card to be played
+     * @return Card played
+     */
     public Card playCard(int i) {
         var card = this.hand.getCard(i);
         if (this.board.isFull()) {
@@ -64,18 +92,29 @@ public class Player {
         }
     }
 
-    public void removeCard(Card card) {
-        this.hand.removeCard(card);
-    }
-
+    /**
+     * Gets the board of the player
+     * 
+     * @return Board of the player
+     */
     public Board getBoard() {
         return this.board;
     }
 
+    /**
+     * Gets the deck of the player
+     * 
+     * @return Deck of the player
+     */
     public Deck getDeck() {
         return this.deck;
     }
 
+    /**
+     * Gets the hand of the player
+     * 
+     * @return Hand of the player
+     */
     public Hand getHand() {
         return this.hand;
     }
@@ -112,6 +151,11 @@ public class Player {
         this.hp = hp;
     }
 
+    /**
+     * Sets the mana of the player
+     * 
+     * @param mana Mana to be set
+     */
     public void setMana(int mana) {
         if (MAX_MANA >= mana) {
             this.mana = mana;

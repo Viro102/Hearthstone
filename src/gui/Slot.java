@@ -1,3 +1,12 @@
+/**
+ * Slot class
+ * 
+ * Utility class to represent a slot on the board,
+ * which is a rectangle that can be occupied by a card.
+ * 
+ * @author Adam Virostek
+ */
+
 package gui;
 
 import java.awt.Rectangle;
@@ -10,6 +19,14 @@ public class Slot {
     private int width;
     private int height;
 
+    /**
+     * Slot constructor
+     * 
+     * Creates a new slot with the specified coordinates
+     * 
+     * @param x X coordinate
+     * @param y Y coordinate
+     */
     public Slot(int x, int y) {
         this.free = true;
         this.glow = false;
@@ -43,6 +60,11 @@ public class Slot {
         return this.height;
     }
 
+    /**
+     * Gets the shape (rectangle) of the slot
+     * 
+     * @return Shape of the slot
+     */
     public Rectangle getShape() {
         return new Rectangle(this.x, this.y, this.width, this.height);
     }

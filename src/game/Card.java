@@ -1,3 +1,11 @@
+/**
+ * Card class
+ * 
+ * Contains all the information about a card
+ * 
+ * @author Adam Virostek
+ */
+
 package game;
 
 import java.awt.Rectangle;
@@ -15,6 +23,19 @@ public class Card {
     private int height;
     private boolean hasAttacked;
 
+    /**
+     * Card constructor
+     * 
+     * Creates a new card with the specified name, type, buff amount, hp, damage,
+     * and cost
+     * 
+     * @param name
+     * @param type
+     * @param buffAmount
+     * @param hp
+     * @param damage
+     * @param cost
+     */
     public Card(String name, String type, int buffAmount, int hp, int damage, int cost) {
         this.name = name;
         this.type = type;
@@ -25,6 +46,17 @@ public class Card {
         this.init();
     }
 
+    /**
+     * Card constructor
+     * 
+     * Creates a new card with the specified name, type, hp, damage, and cost
+     * 
+     * @param name
+     * @param type
+     * @param hp
+     * @param damage
+     * @param cost
+     */
     public Card(String name, String type, int hp, int damage, int cost) {
         this.name = name;
         this.type = type;
