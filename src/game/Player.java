@@ -51,9 +51,12 @@ public class Player {
             return null;
         }
         if (this.mana >= card.getCost()) {
-            this.board.addCard(card);
-            this.hand.removeCard(i);
             this.mana -= card.getCost();
+            if (card.getType().equals("spell") || card.getType().equals("aoe")) {
+                return card;
+            }
+            this.hand.removeCard(i);
+            this.board.addCard(card);
             return card;
         } else {
             System.out.println("Not enough mana");

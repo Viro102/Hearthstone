@@ -73,7 +73,10 @@ public class Game {
         if (this.selectedCard == player.getBoard().getCard(i)) {
             this.selectedCard = null;
             this.panel.removeGlow();
-        } else {
+        } else if (this.selectedCard != null) {
+            JOptionPane.showMessageDialog(this.panel, "Can't select two cards at once");
+        }
+        if (this.selectedCard == null) {
             this.selectedCard = player.getBoard().getCard(i);
             this.panel.addGlow(i, "board");
         }
@@ -103,14 +106,11 @@ public class Game {
             targetCard.setHp(targetCard.getHp() - this.selectedCard.getDamage());
             this.selectedCard.setHp(this.selectedCard.getHp() - targetCard.getDamage());
             this.selectedCard.setHasAttacked(true);
-            if (this.selectedCard.getType().equals("spell")) {
-                currentPlayer.getBoard().removeCard(this.selectedCard);
-            }
             if (targetCard.getHp() <= 0) {
                 opponent.getBoard().removeCard(i);
             }
             if (this.selectedCard.getHp() <= 0) {
-                currentPlayer.getBoard().removeCard(i);
+                currentPlayer.getBoard().removeCard(this.selectedCard);
             }
         } else {
             JOptionPane.showMessageDialog(this.panel, "Card has already attacked!");
@@ -211,13 +211,22 @@ public class Game {
         }
 
         if (card.getType().equals("spell")) {
+            this.getOnTurnPlayer().getHand().removeCard(card);
             this.selectedCard = card;
             return;
         }
 
         if (card.getType().equals("aoe")) {
-            // TODO
-            this.selectedCard = card;
+            this.getOnTurnPlayer().getHand().removeCard(card);
+            for (var target : this.getOffTurnPlayer().getBoard().getCards()) {
+                if (target == null) {
+                    continue;
+                }
+                target.setHp(target.getHp() - card.getDamage());
+                if (target.getHp() <= 0) {
+                    this.getOffTurnPlayer().getBoard().removeCard(target);
+                }
+            }
         }
     }
 }

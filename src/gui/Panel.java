@@ -289,8 +289,6 @@ public class Panel extends JPanel {
 
         g2d.drawImage(deck.getImage(), 1150, 200, this);
         g2d.drawString("Cards: " + currentPlayer.getDeck().getNumOfCardsString(), 1170, 200);
-
-        g2d.drawString("Player on turn: " + currentPlayer.getArchetype(), 300, 50);
     }
 
     private void paintCards(Graphics2D g2d, ArrayList<Card> cards) {
