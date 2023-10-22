@@ -17,6 +17,7 @@ Current player that is on turn is always at the bottom of the screen.
 Board is divided into two parts, the top part is for player no. 2, and the bottom part is for the first player.
 
 Combat begins by selecting a deployed card on board and then clicking on the target card. End turn is self-explanatory player clicks on the button and the turn ends.
+
 There are 5 types of cards – minion, buff, spell, AoE spell, taunt.
 These types closely resemble the original types of cards found in Hearthstone.
 * Minion is a basic unit, that can attack other cards.
