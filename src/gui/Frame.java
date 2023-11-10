@@ -1,15 +1,16 @@
+/**
+ * Frame class
+ * <p>
+ * Main frame of the game, uses javax.swing.JFrame to create a window,
+ * to then be used to display the game
+ *
+ * @author Adam Virostek
+ */
+
 package gui;
 
 import javax.swing.*;
 
-/**
- * Frame class
- *
- * <p>Main frame of the game, uses javax.swing.JFrame to create a window,
- * to then be used to display the game.
- *
- * @author Adam Virostek
- */
 public class Frame extends JFrame {
   /**
    * Frame constructor
