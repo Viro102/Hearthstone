@@ -1,4 +1,6 @@
-.vscode/*
-bin/*
+.vscode
+.idea
+bin
 doc/Documentation.docx
 doc/UML.frip2
+Hearthstone.iml
